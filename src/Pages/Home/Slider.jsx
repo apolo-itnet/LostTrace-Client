@@ -1,63 +1,338 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectFade, Autoplay } from "swiper/modules";
-import { motion } from "framer-motion";
+import { Autoplay, Navigation } from "swiper/modules";
+import { AnimatePresence, motion } from "framer-motion";
 import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 import "swiper/css/effect-fade";
-
-const slides = [
-  {
-    id: 1,
-    title: "LOST TRACE",
-    subtitle: "Lost & Found Solution",
-    image: "https://i.postimg.cc/MKkw53pg/Worried-amico.png",
-  },
-  {
-    id: 2,
-    title: "FIND WHAT'S LOST",
-    subtitle: "Your personal item recovery hub",
-    image: "https://i.postimg.cc/jjjY2GMn/Worried-rafiki.png",
-  },
-  {
-    id: 3,
-    title: "TRACE. REPORT. RETURN.",
-    subtitle: "Helping you reconnect with what matters",
-    image: "https://i.postimg.cc/Xq8WzWvx/undraw-travelers-kud9.webp",
-  },
-];
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import SecondaryBtn from "../../Shared/Button/SecondaryBtn";
+import { slideUp } from "../../Utility/animation";
+import { useState } from "react";
 
 const Slider = () => {
-  return (
-    <div className="h-[calc(100vh-83px)] w-full res-padding bg-teal-800/80 ">
-      <Swiper
-        modules={[Autoplay]}
-        autoplay={{ delay: 4000, disableOnInteraction: false }}
-        speed={2000}
-        loop
-      >
-        {slides.map(({ id, title, subtitle, image }) => (
-          <SwiperSlide key={id}>
-            <div className="w-full mx-auto h-[calc(100vh-83px)] flex items-center justify-between gap-4 px-4 ">
-              <motion.div
-                className="space-y-4 flex justify-between items-center gap-4 "
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1 }}
-              >
-                <div className="w-full">
-                  <h1 className="text-4xl md:text-9xl bebas tracking-wider font-black text-amber-400">
-                    {title}
-                  </h1>
-                  <p className="text-4xl md:text-5xl bebas uppercase font-sans">{subtitle}</p>
-                </div>
+  const [activeSlide, setActiveSlide] = useState(0);
 
-                <div className="w-full mx-auto bg-base-300/50 h-[calc(100vh-80px-80px)] p-2 border-2 border-base-300/50 rounded-t-full flex">
-                  <img src={image} alt={title} className="w-2/3 object-cover  mx-auto flex justify-end items-end" />
-                </div>{" "}
-              </motion.div>
+  return (
+    <div className="h-full w-full mx-auto overflow-hidden bg-sky-50/50 ">
+      <div>
+        <Swiper
+          spaceBetween={100}
+          slidesPerView={1}
+          modules={[Autoplay, Navigation]}
+          autoplay={{ delay: 7000, disableOnInteraction: false }}
+          speed={2000}
+          keyboard={{
+            enabled: true,
+          }}
+          loop
+          navigation={{
+            nextEl: ".slide-button-next",
+            prevEl: ".slide-button-prev",
+          }}
+          onSlideChange={(swiper) => {
+            setActiveSlide(swiper.realIndex);
+          }}
+          className=" relative group res-padding "
+        >
+          {/* slide-1 */}
+          <SwiperSlide>
+            <div className="flex flex-col lg:flex-row justify-between items-center lg:h-[calc(100vh-83px)] w-full mx-auto res-padding relative">
+              <AnimatePresence mode="wait">
+                {activeSlide === 0 && (
+                  <>
+                    {/* left side */}
+                    <motion.div
+                      key="left-hero"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="w-[56%] pl-8"
+                    >
+                      <motion.h1
+                        variants={slideUp(1.1)}
+                        initial="initial"
+                        animate="animate"
+                        exit="exit"
+                        className="text-4xl md:text-[9rem]  bebas uppercase  font-black text-amber-400 leading-24 relative"
+                      >
+                        <span className="text-teal-800 tracking-wider ">
+                          LOST
+                        </span>{" "}
+                        <span className="text-6xl absolute -bottom-2 left-58">
+                          &
+                        </span>
+                        <span className="tracking-widest">TRACE</span>
+                      </motion.h1>
+
+                      <motion.p
+                        variants={slideUp(1.0)}
+                        initial="initial"
+                        animate="animate"
+                        exit="exit"
+                        className="text-4xl md:text-6xl bebas uppercase tracking-tight font-sans underline decoration-amber-400"
+                      >
+                        Lost & Found Solution
+                      </motion.p>
+
+                      <motion.p
+                        variants={slideUp(0.9)}
+                        initial="initial"
+                        animate="animate"
+                        exit="exit"
+                        className="w-md text-md manrope tracking-wider py-4"
+                      >
+                        Track, report, and recover lost items effortlessly with
+                        our all-in-one platform.
+                      </motion.p>
+
+                      <motion.div
+                        variants={slideUp(0.8)}
+                        initial="initial"
+                        animate="animate"
+                        exit="exit"
+                      >
+                        <SecondaryBtn label={"View More"} />
+                      </motion.div>
+                    </motion.div>
+
+                    {/* right side */}
+                    <motion.div
+                      key="right-img"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.4 }}
+                      className="w-[44%] h-full mx-auto relative flex justify-end items-center"
+                    >
+                      <motion.div
+                        initial={{ opacity: 0, x: 100 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 50 }}
+                        transition={{ duration: 0.5, delay: 0.3 }}
+                        className="relative w-full h-full inline-flex justify-center items-center"
+                      >
+                        <img
+                          src="https://i.postimg.cc/MKkw53pg/Worried-amico.png"
+                          alt="Worried-amico"
+                          className="object-center object-cover p-4 z-10 absolute w-sm"
+                        />
+                        <img
+                          src="https://i.postimg.cc/SNR0M3Wc/blob-2-opacity-100.gif"
+                          alt=""
+                          className="absolute w-full"
+                        />
+                        <img
+                          src="https://i.postimg.cc/MKFCb5DN/blob-1-opacity-100.gif"
+                          alt=""
+                          className="absolute w-full"
+                        />
+                      </motion.div>
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>
             </div>
           </SwiperSlide>
-        ))}
-      </Swiper>
+
+          {/* slide-2 */}
+          <SwiperSlide>
+            <div className="flex flex-col lg:flex-row justify-between items-center lg:h-[calc(100vh-83px)] w-full mx-auto res-padding relative">
+              <AnimatePresence mode="wait">
+                {activeSlide === 1 && (
+                  <>
+                    {/* left side */}
+                    <motion.div
+                      key="left-hero"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="w-[56%] pl-8"
+                    >
+                      <motion.h1
+                        variants={slideUp(1.1)}
+                        initial="initial"
+                        animate="animate"
+                        className="text-4xl md:text-[7rem]  bebas tracking-wider font-black text-amber-400 leading-24"
+                      >
+                        FIND WHAT'S <span className="text-teal-800">LOST</span>
+                      </motion.h1>
+                      <motion.p
+                        variants={slideUp(1.0)}
+                        initial="initial"
+                        animate="animate"
+                        className="text-4xl md:text-6xl bebas uppercase tracking-tight font-sans underline decoration-amber-400"
+                      >
+                        every Lost Item Has a Way Back
+                      </motion.p>
+
+                      <motion.p
+                        variants={slideUp(0.9)}
+                        initial="initial"
+                        animate="animate"
+                        className="w-md text-md manrope tracking-wider py-4"
+                      >
+                        Connecting people with their missing valuables through
+                        smart search and real-time updates.
+                      </motion.p>
+                      <motion.div
+                        variants={slideUp(0.8)}
+                        initial="initial"
+                        animate="animate"
+                      >
+                        <SecondaryBtn label={"View More"} />
+                      </motion.div>
+                    </motion.div>
+
+                    {/* right side */}
+                    <motion.div
+                      key="right-img"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.4 }}
+                      className="w-[44%] h-full mx-auto relative flex justify-end items-center"
+                    >
+                      <motion.div
+                        initial={{ opacity: 0, x: 100 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.5, delay: 0.3 }}
+                        className="relative w-full h-full inline-flex justify-center items-center"
+                      >
+                        <img
+                          src="https://i.postimg.cc/jjjY2GMn/Worried-rafiki.png"
+                          alt="Worried-rafiki"
+                          className="object-center object-cover p-4 z-10 absolute w-sm"
+                        />
+                        {/* <div className="relative w-full h-full"> */}
+
+                        <img
+                          src={
+                            "https://i.postimg.cc/SNR0M3Wc/blob-2-opacity-100.gif"
+                          }
+                          alt=""
+                          className="absolute w-full"
+                        />
+                        <img
+                          src={
+                            "https://i.postimg.cc/MKFCb5DN/blob-1-opacity-100.gif"
+                          }
+                          alt=""
+                          className="absolute w-full"
+                        />
+                      </motion.div>
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>
+            </div>
+          </SwiperSlide>
+
+          {/* slide-3 */}
+          <SwiperSlide>
+            <div className="flex flex-col lg:flex-row justify-between items-center lg:h-[calc(100vh-83px)] w-full mx-auto res-padding relative">
+              <AnimatePresence mode="wait">
+                {activeSlide === 2 && (
+                  <>
+                    {/* left side */}
+                    <motion.div
+                      key="left-hero"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="w-[56%] pl-8"
+                    >
+                      <motion.h1
+                        variants={slideUp(1.1)}
+                        initial="initial"
+                        animate="animate"
+                        className="text-4xl md:text-[6rem]  bebas tracking-wider font-black text-amber-400 leading-24"
+                      >
+                        <span className="text-teal-800">POST.</span>
+                        TRACE.RETURN
+                      </motion.h1>
+                      <motion.p
+                        variants={slideUp(1.0)}
+                        initial="initial"
+                        animate="animate"
+                        className="text-4xl md:text-5xl bebas uppercase tracking-tight font-sans underline decoration-amber-400"
+                      >
+                        Your Trusted Partner in Recovery
+                      </motion.p>
+
+                      <motion.p
+                        variants={slideUp(0.9)}
+                        initial="initial"
+                        animate="animate"
+                        className="w-md text-md manrope tracking-wider py-4"
+                      >
+                        Empowering you to reclaim what matters—with speed,
+                        security, and simplicity.
+                      </motion.p>
+                      <motion.div
+                        variants={slideUp(0.8)}
+                        initial="initial"
+                        animate="animate"
+                      >
+                        <SecondaryBtn label={"View More"} />
+                      </motion.div>
+                    </motion.div>
+
+                    {/* right side */}
+                    <motion.div
+                      key="right-img"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.4 }}
+                      className="w-[44%] h-full mx-auto relative flex justify-end items-center"
+                    >
+                      <motion.div
+                        initial={{ opacity: 0, x: 100 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.5, delay: 0.3 }}
+                        className="relative w-full h-full inline-flex justify-center items-center"
+                      >
+                        <img
+                          src="https://i.postimg.cc/Xq8WzWvx/undraw-travelers-kud9.webp"
+                          alt="Worried-found"
+                          className="object-center object-cover p-4 z-10 absolute w-sm"
+                        />
+                        {/* <div className="relative w-full h-full"> */}
+
+                        <img
+                          src={
+                            "https://i.postimg.cc/SNR0M3Wc/blob-2-opacity-100.gif"
+                          }
+                          alt=""
+                          className="absolute w-full"
+                        />
+                        <img
+                          src={
+                            "https://i.postimg.cc/MKFCb5DN/blob-1-opacity-100.gif"
+                          }
+                          alt=""
+                          className="absolute w-full"
+                        />
+                      </motion.div>
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>
+            </div>
+          </SwiperSlide>
+
+          <div className="slide-button-prev rounded-md  absolute top-80  w-10 h-10 flex justify-center items-center bg-amber-400 text-teal-800 group-hover:left-0 -left-96 duration-300 ease-in-out transition-all z-50 cursor-pointer">
+            <ArrowLeft />
+          </div>
+          <div className="slide-button-next rounded-md  absolute top-80  w-10 h-10 flex justify-center items-center bg-amber-400 text-teal-800 group-hover:right-0 -right-96 duration-300 ease-in-out transition-all z-50 cursor-pointer">
+            <ArrowRight />
+          </div>
+        </Swiper>
+      </div>
     </div>
   );
 };

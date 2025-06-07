@@ -13,7 +13,7 @@ const RootLayout = () => {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col">
       <section className="sticky top-0 z-50 transition duration-300">
         <Navbar />
       </section>
