@@ -1,5 +1,5 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Navigation } from "swiper/modules";
+import { Autoplay, EffectFade, Navigation } from "swiper/modules";
 import { AnimatePresence, motion } from "framer-motion";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -19,7 +19,8 @@ const Slider = () => {
         <Swiper
           spaceBetween={100}
           slidesPerView={1}
-          modules={[Autoplay, Navigation]}
+          modules={[EffectFade, Navigation, Autoplay]}
+          effect="fade"
           autoplay={{ delay: 7000, disableOnInteraction: false }}
           speed={2000}
           keyboard={{
@@ -109,7 +110,7 @@ const Slider = () => {
                       <motion.div
                         initial={{ opacity: 0, x: 100 }}
                         animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: 50 }}
+                        exit={{ opacity: 0 }}
                         transition={{ duration: 0.5, delay: 0.3 }}
                         className="relative w-full h-full inline-flex justify-center items-center"
                       >
@@ -155,6 +156,7 @@ const Slider = () => {
                         variants={slideUp(1.1)}
                         initial="initial"
                         animate="animate"
+                        exit="exit"
                         className="text-4xl md:text-[7rem]  bebas tracking-wider font-black text-amber-400 leading-24"
                       >
                         FIND WHAT'S <span className="text-teal-800">LOST</span>
@@ -163,6 +165,7 @@ const Slider = () => {
                         variants={slideUp(1.0)}
                         initial="initial"
                         animate="animate"
+                        exit="exit"
                         className="text-4xl md:text-6xl bebas uppercase tracking-tight font-sans underline decoration-amber-400"
                       >
                         every Lost Item Has a Way Back
@@ -172,6 +175,7 @@ const Slider = () => {
                         variants={slideUp(0.9)}
                         initial="initial"
                         animate="animate"
+                        exit="exit"
                         className="w-md text-md manrope tracking-wider py-4"
                       >
                         Connecting people with their missing valuables through
@@ -181,6 +185,7 @@ const Slider = () => {
                         variants={slideUp(0.8)}
                         initial="initial"
                         animate="animate"
+                        exit="exit"
                       >
                         <SecondaryBtn label={"View More"} />
                       </motion.div>
@@ -198,6 +203,7 @@ const Slider = () => {
                       <motion.div
                         initial={{ opacity: 0, x: 100 }}
                         animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 50 }}
                         transition={{ duration: 0.5, delay: 0.3 }}
                         className="relative w-full h-full inline-flex justify-center items-center"
                       >
@@ -249,6 +255,7 @@ const Slider = () => {
                         variants={slideUp(1.1)}
                         initial="initial"
                         animate="animate"
+                        exit="exit"
                         className="text-4xl md:text-[6rem]  bebas tracking-wider font-black text-amber-400 leading-24"
                       >
                         <span className="text-teal-800">POST.</span>
@@ -258,6 +265,7 @@ const Slider = () => {
                         variants={slideUp(1.0)}
                         initial="initial"
                         animate="animate"
+                        exit="exit"
                         className="text-4xl md:text-5xl bebas uppercase tracking-tight font-sans underline decoration-amber-400"
                       >
                         Your Trusted Partner in Recovery
@@ -267,6 +275,7 @@ const Slider = () => {
                         variants={slideUp(0.9)}
                         initial="initial"
                         animate="animate"
+                        exit="exit"
                         className="w-md text-md manrope tracking-wider py-4"
                       >
                         Empowering you to reclaim what matters—with speed,
@@ -276,6 +285,7 @@ const Slider = () => {
                         variants={slideUp(0.8)}
                         initial="initial"
                         animate="animate"
+                        exit="exit"
                       >
                         <SecondaryBtn label={"View More"} />
                       </motion.div>
@@ -293,6 +303,7 @@ const Slider = () => {
                       <motion.div
                         initial={{ opacity: 0, x: 100 }}
                         animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 50 }}
                         transition={{ duration: 0.5, delay: 0.3 }}
                         className="relative w-full h-full inline-flex justify-center items-center"
                       >

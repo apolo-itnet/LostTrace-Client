@@ -1,18 +1,76 @@
-import React from "react";
+import React, { use, useState } from "react";
 import CustomInput from "../../Shared/CustomInput";
-import { Key, Mail } from "lucide-react";
+import { Key, LampDesk, Mail } from "lucide-react";
 import SocialLogin from "../../Shared/SocialLogin";
-import Lottie from "lottie-react";
-import loginLottie from "../../assets/lottie-animation/login-lottie.json";
 import Button from "../../Shared/Button/Button";
+import { AuthContext } from "../../Contexts/AuthContexts";
+import { useLocation, useNavigate } from "react-router";
+import { toastError, toastSuccess } from "../../Utility/notification";
+import { Toaster } from "react-hot-toast";
+import LoaderFull from "../../Shared/Laoder/LoaderFull";
 
 const Signin = () => {
+  const { signIn, loading, signInWithGoogle } = use(AuthContext);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleLogin = (e) => {
     e.preventDefault();
+
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    setEmailError("");
+    setPasswordError("");
+    setIsLoading(true);
+
+    try {
+      signIn(email, password);
+      setIsLoading(false);
+      toastSuccess("Login successful");
+      navigate(location.state?.from || "/", { replace: true });
+    } catch (error) {
+      setIsLoading(false);
+      if (error.code === "auth/invalid-email") {
+        setEmailError("Invalid email");
+      } else if (error.code === "auth/wrong-password") {
+        setPasswordError("Incorrect password");
+      } else if (error.code === "auth/invalid-credential") {
+        toastError("Check your email and password please...!", {
+          style: { color: "red" },
+        });
+      } else {
+        toastError(
+          error.message || "Login failed! Check your email and password.",
+          { style: { color: "red" } }
+        );
+      }
+    }
   };
+
+  const handleGoogleLogin = async () => {
+    try {
+      const gResult = await signInWithGoogle();
+      toastSuccess("Successfully signed up in Google!");
+      navigate(location.state?.from || "/", { replace: true });
+    } catch (error) {
+      console.error("Google Sign-In error:", error);
+      toastError(`Google Sign-In failed: ${error.message}`);
+    }
+  };
+
+  if (loading) {
+    return <LoaderFull />;
+  }
 
   return (
     <div>
+      <Toaster reverseOrder={false} />
       <div className="max-w-6xl h-[calc(100vh-83px)] mx-auto res-padding flex justify-start items-start">
         <div
           data-aos="fade-in"
@@ -35,6 +93,7 @@ const Signin = () => {
                       placeholder={"Enter your email address"}
                       icon={Mail}
                     />
+                    {emailError && <p className="text-red-500">{emailError}</p>}
                   </div>
 
                   {/* Password Field */}
@@ -46,6 +105,9 @@ const Signin = () => {
                       placeholder={"Enter your Password"}
                       icon={Key}
                     />
+                    {passwordError && (
+                      <p className="text-red-500">{passwordError}</p>
+                    )}
                   </div>
                   <div>
                     <a className="link link-hover text-teal-800 font-semibold">
@@ -57,7 +119,7 @@ const Signin = () => {
                   </div>
                 </fieldset>
               </form>
-              <SocialLogin />
+              <SocialLogin handleGoogleLogin={handleGoogleLogin} />
             </div>
           </div>
         </div>
@@ -68,18 +130,16 @@ const Signin = () => {
           className="my-10 h-fit responsive-padding flex-1 flex-col justify-center gap-4 items-center"
         >
           <div>
-            <p className="text-4xl font-bold text-center py-2 ">
-              Welcome Back
-            </p>
+            <p className="text-4xl font-bold text-center py-2 ">Welcome Back</p>
             <p className="text-sm text-center">
-              <span className="font-bold text-teal-800">Sign in</span> and stay connected with us
+              <span className="font-bold text-teal-800">Sign in</span> and stay
+              connected with us
             </p>
           </div>
           <img
             src={"https://i.postimg.cc/Fzmmpzh7/Login.webp"}
             alt=""
             className="h-[calc(80vh-83px)] mx-auto py-2"
-
           />
         </div>
       </div>

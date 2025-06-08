@@ -1,18 +1,102 @@
-import React from "react";
+import React, { use, useState } from "react";
 import CustomInput from "../../Shared/CustomInput";
 import { ImageIcon, Key, Mail, Phone, UserRoundPen } from "lucide-react";
 import SocialLogin from "../../Shared/SocialLogin";
-import { Link } from "react-router";
-import SecondaryBtn from "../../Shared/Button/SecondaryBtn";
+import { Link, useLocation, useNavigate } from "react-router";
 import Button from "../../Shared/Button/Button";
+import {
+  toastError,
+  toastSuccess,
+  toastWarning,
+} from "../../Utility/notification";
+import { AuthContext } from "../../Contexts/AuthContexts";
+import { Toaster } from "react-hot-toast";
+import { updateProfile } from "firebase/auth";
 
 const Signup = () => {
-  const handleRegister = (e) => {
+  const { createUser, signInWithGoogle } = use(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  
+  const [emailError , setEmailError] = useState("");
+
+  const [passwordError, setPasswordError] = useState([]);
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const validatePassword = (password) => {
+      const error = [];
+      if (password.length < 6) error.push("Password must be at least 6 characters");
+      if (!/[A-Z]/.test(password)) error.push("Password must contain at least ONE UPPERCASE letter");
+      if (!/[a-z]/.test(password)) error.push("Password must contain at least one lowercase letter");
+      if (!/[0-9]/.test(password)) error.push("Password must contain at least one number");
+      return error;
+  }
+
+  const handleRegister = async (e) => {
     e.preventDefault();
+
+    const form = e.target;
+    const { fullName, email, password, confirmPassword, photoURL, phone } =
+      form;
+    const photo = photoURL.value || "https://i.postimg.cc/WpBxFRrR/user-5.png";
+
+    setEmailError("");
+    setPasswordError("");
+    setConfirmPasswordError("");
+
+    if (!email){
+      setEmailError("Email is required");
+      toastWarning("Email is required");
+      return;
+    }
+
+    const passwordErrors = validatePassword(password.value);
+    if (passwordErrors.length > 0) {
+      setPasswordError(passwordErrors)
+      toastWarning('Password must be at least 6 characters long, contain at least one uppercase letter, one lowercase letter, and one number.');
+      return;
+    }
+
+    if (password.value !== confirmPassword.value) {
+      setConfirmPasswordError("Passwords do not match");
+      toastWarning("Passwords do not match");
+      return;
+    }
+
+    try {
+      //firebase signup
+      const { user } = await createUser(email.value, password.value);
+
+      //firebase update profile
+      await updateProfile( user, {
+        displayName: fullName.value,
+        photoURL: photo,
+      });
+      toastSuccess("Successfully signed up!");
+      navigate(location.state?.from || "/", { replace: true });
+    } catch (err) {
+      console.error(err);
+      toastError(err.message);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      const gResult = await signInWithGoogle();
+      toastSuccess("Successfully signed up in Google!");
+      navigate(location.state?.from || "/", { replace: true });
+    } catch (error) {
+      console.error("Google Sign-In error:", error);
+      toastError(`Google Sign-In failed: ${error.message}`);
+    }
   };
 
   return (
     <div>
+      <Toaster reverseOrder={false} />
       <div className="max-w-7xl mx-auto res-padding flex justify-center items-start">
         <div
           data-aos="fade-right"
@@ -106,14 +190,11 @@ const Signup = () => {
                     </span>
                   </div>
                   <div className="w-full flex flex-col">
-                    <Button
-                      label={"Register"}
-                      className="w-full"
-                    ></Button>
+                    <Button label={"Register"} className="w-full"></Button>
                   </div>
                 </fieldset>
               </form>
-              <SocialLogin />
+              <SocialLogin handleGoogleLogin={handleGoogleSignIn} />
             </div>
           </div>
         </div>

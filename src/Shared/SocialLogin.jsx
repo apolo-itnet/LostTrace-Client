@@ -1,11 +1,10 @@
 import React, { use } from "react";
-// import { AuthContext } from "../Contexts/AuthContext/AuthContext";
-// import { showSweetNotify, showToastError } from "../Utility/notification";
 import { useNavigate } from "react-router";
-import SecondaryBtn from "./Button/SecondaryBtn";
+import { AuthContext } from "../Contexts/AuthContexts";
+import { toastError, toastSuccess } from "../Utility/notification";
 
 const SocialLogin = ({ from }) => {
-  // const {logInWithGoogle} = use(AuthContext);
+  const {signInWithGoogle} = use(AuthContext);
   const navigate = useNavigate();
 
   // Function to handle Google login
@@ -13,25 +12,26 @@ const SocialLogin = ({ from }) => {
     console.log(handleGoogleLogin);
     
     try {
-      await logInWithGoogle();
-      console.log("button kaj korche?",logInWithGoogle);
+      await signInWithGoogle();
+      console.log("button kaj korche?", signInWithGoogle);
       
-      showSweetNotify("Google login successful!");
+      toastSuccess("Successfully signed up in Google!");
       navigate(from || "/");
     } catch (error) {
       console.error("Google login error:", error);
-      showToastError(`Google login failed: ${error.message}`);
+      toastError(`Google login failed: ${error.message}`);
     }
   };
 
   return (
     <div>
-      {/* Divider  */}
+
       <div className="flex w-full flex-col">
         <div className="divider">OR</div>
       </div>
-      {/* Social Login Buttons */}
+
       <div className="flex flex-col gap-2">
+
         {/* Google */}
         <button onClick={handleGoogleLogin} className="btn py-5 bg-transparent border border-teal-600">
           <img
@@ -43,6 +43,7 @@ const SocialLogin = ({ from }) => {
           />
           Login with Google
         </button>
+
         {/* Facebook */}
         <button className="btn py-5 bg-transparent border border-teal-600 ">
           <img
