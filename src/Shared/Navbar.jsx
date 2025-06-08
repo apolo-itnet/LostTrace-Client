@@ -43,8 +43,8 @@ const Navbar = ({ toggleTheme, theme }) => {
   ];
 
   const privateLinks = [
-    { label: "Add Item", href: "/addItem", icon: <FaPlus /> },
-    { label: "My Items", href: "/myItems", icon: <FaList /> },
+    { label: "Add Post", href: "/add-post", icon: <FaPlus /> },
+    { label: "My Post", href: "/my-posted-list", icon: <FaList /> },
     { label: "All Recovered", href: "/recovered", icon: <FaCheckCircle /> },
   ];
 
