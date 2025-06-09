@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiArrowRight, FiArrowLeft } from "react-icons/fi";
 import CustomInput from "../Shared/CustomInput";
@@ -13,13 +13,37 @@ import {
   ImagePlus,
   ListChecks,
   LocateIcon,
+  Mail,
   MapPin,
   MapPinned,
   Pen,
+  Phone,
+  User,
 } from "lucide-react";
+import SecondaryBtn from "../Shared/Button/SecondaryBtn";
+import useAuth from "../Hooks/useAuth";
+import axios from "axios";
+import Button from "../Shared/Button/Button";
+import { toastSuccess } from "../Utility/notification";
+import { useNavigate } from "react-router";
 
 const AddPost = () => {
   const [step, setStep] = useState(0);
+  const navigate = useNavigate();
+
+  //GET USER FROM FIREBASE AUTH
+  const { user } = useAuth();
+
+  //GET USER FROM MONGODB
+  const [userDataMDB, setUserDataMDB] = useState(null);
+  useEffect(() => {
+    if (user?.email) {
+      axios
+        .get(`http://localhost:5000/users/${user.email}`)
+        .then((res) => setUserDataMDB(res.data))
+        .catch((err) => console.log("Failed to get data", err));
+    }
+  }, [user?.email]);
 
   const next = () => setStep((prev) => Math.min(prev + 1, 3));
   const prev = () => setStep((prev) => Math.max(prev - 1, 0));
@@ -63,18 +87,16 @@ const AddPost = () => {
               required
               icon={ListChecks}
               options={[
+                { label: "Documents", value: "documents" },
                 { label: "People", value: "people" },
                 { label: "Pets", value: "pets" },
-                { label: "Phones & Tablets", value: "phones & tablets" },
+                { label: "Jewelry", value: "jewelry" },
                 { label: "Gadgets", value: "gadgets" },
                 { label: "Accessories", value: "accessories" },
-                { label: "Jewelry", value: "jewelry" },
                 { label: "Bags", value: "bags" },
                 { label: "Toys", value: "toys" },
                 { label: "Books", value: "books" },
-                { label: "Sports", value: "sports" },
-                { label: "Bike", value: "bike" },
-                { label: "Car", value: "car" },
+                { label: "Vehicle", value: "vehicle" },
                 { label: "Other", value: "other" },
               ]}
             />
@@ -89,10 +111,10 @@ const AddPost = () => {
             />
 
             <CustomInput
-              label="Colors (if applicable)"
+              label="Color (if applicable)"
               type="text"
               placeholder="Types Colors"
-              name="brandModel"
+              name="color"
               icon={Pen}
               className="w-full flex"
             />
@@ -200,26 +222,42 @@ const AddPost = () => {
           <div>
             <CustomInput
               label="Your Name"
-              placeholder="Enter your name"
+              placeholder={
+                user?.displayName ? user?.displayName : "Enter your name"
+              }
               name="name"
-              icon={FiArrowRight}
+              readonly
+              icon={User}
+              className="cursor-not-allowed"
             />
             <CustomInput
               label="Email"
-              placeholder="Enter your email"
+              placeholder={user?.email ? user?.email : "Enter your email"}
               type="email"
               name="email"
-              icon={FiArrowRight}
+              required={false}
+              icon={Mail}
             />
           </div>
           <div>
-            <CustomInput
-              label="Phone"
-              placeholder="Enter your phone number"
-              type="tel"
-              name="phone"
-              icon={FiArrowRight}
-            />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <CustomInput
+                label="Phone"
+                placeholder={userDataMDB?.phone || "Enter your phone number"}
+                type="tel"
+                name="phone"
+                required={false}
+                icon={Phone}
+              />
+              <CustomInput
+                label="Phone (Optional)"
+                placeholder="Enter your phone number"
+                type="tel"
+                name="phone"
+                required={false}
+                icon={Phone}
+              />
+            </div>
             <div>
               <CustomInput
                 label="Rewards"
@@ -228,7 +266,9 @@ const AddPost = () => {
                 name="rewards"
                 icon={BadgeDollarSign}
               />
-              <p className="text-sm tracking-wide manrope text-red-500 pl-12 pb-2 flex -mt-3  ">if any rewards will be given to the finder</p>
+              <p className="text-sm tracking-wide manrope text-red-500 pl-12 pb-2 flex -mt-3  ">
+                if any rewards will be given to the finder
+              </p>
             </div>
           </div>
         </div>
@@ -236,44 +276,61 @@ const AddPost = () => {
     },
   ];
 
+  //SEND DATA TO DATABASE
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+      await axios.post("http://localhost:5000/posts", data);
+      toastSuccess("Post added successfully!");
+      navigate("/");
+      // navigate("/my-posts");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-base-100 border border-base-300 shadow-none rounded-xl my-10 manrope text-sm">
+    <div className="max-w-4xl mx-auto p-6 bg-base-100 border border-base-300 shadow-none rounded-xl my-10 league text-sm">
       <h2 className="text-xl font-bold mb-4 text-center text-teal-700">
         Step {step + 1}: {steps[step].title}
       </h2>
 
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={step}
-          initial={{ opacity: 0, x: 100 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -100 }}
-          transition={{ duration: 0.4 }}
-          className="space-y-2"
-        >
-          {steps[step].content}
-        </motion.div>
-      </AnimatePresence>
-
-      <div className="flex justify-between mt-4">
-        <button
-          onClick={prev}
-          disabled={step === 0}
-          className="btn btn-outline btn-sm flex items-center gap-1"
-        >
-          <FiArrowLeft /> Back
-        </button>
-        {step < steps.length - 1 ? (
-          <button
-            onClick={next}
-            className="btn btn-primary btn-sm flex items-center gap-1"
+      <form onSubmit={handleSubmit}>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={step}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.4 }}
+            className="space-y-2"
           >
-            Next <FiArrowRight />
-          </button>
-        ) : (
-          <button className="btn btn-success btn-sm">Submit</button>
-        )}
-      </div>
+            {steps[step].content}
+          </motion.div>
+        </AnimatePresence>
+
+        <div className="flex justify-between mt-4">
+          <SecondaryBtn
+            label="Back"
+            img={<FiArrowLeft />}
+            onClick={prev}
+            // disabled={step === 0}
+          />
+          {step < steps.length - 1 ? (
+            <SecondaryBtn
+              label="Next"
+              img={<FiArrowRight />}
+              onClick={next}
+              className="border-teal-800"
+            />
+          ) : (
+            <Button label="Submit" />
+          )}
+        </div>
+      </form>
     </div>
   );
 };

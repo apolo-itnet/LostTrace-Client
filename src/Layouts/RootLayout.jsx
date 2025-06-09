@@ -31,14 +31,14 @@ const RootLayout = () => {
   }, []);
 
   return (
-    <div className="flex flex-col">
+    <div className="w-full flex flex-col min-h-screen">
       <section className="sticky top-0 z-50 transition duration-300">
         <Navbar toggleTheme={toggleTheme} theme={theme} />
       </section>
       <section className="flex-grow">
         {state === "loading" ? <LoaderFull /> : <Outlet />}
       </section>
-      <section>
+      <section className="mt-auto">
         <Footer />
       </section>
     </div>

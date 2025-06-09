@@ -12,6 +12,7 @@ export default function CustomInput({
   options = [],
   select = "Select an option",
   rows = 3,
+  readonly, 
 }) {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -128,6 +129,7 @@ export default function CustomInput({
             onBlur={() => setIsFocused(false)}
             value={value}
             onChange={onChange}
+            readOnly={readonly}
           />
         </div>
       )}
