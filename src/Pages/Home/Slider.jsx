@@ -9,8 +9,10 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import SecondaryBtn from "../../Shared/Button/SecondaryBtn";
 import { slideUp } from "../../Utility/animation";
 import { useState } from "react";
+import useAuth from "../../Hooks/useAuth";
 
 const Slider = () => {
+  const { user } = useAuth();
   const [activeSlide, setActiveSlide] = useState(0);
 
   return (
@@ -22,7 +24,7 @@ const Slider = () => {
           modules={[EffectFade, Navigation, Autoplay]}
           effect="fade"
           autoplay={{ delay: 7000, disableOnInteraction: false }}
-          speed={2000}
+          speed={2500}
           keyboard={{
             enabled: true,
           }}
@@ -48,11 +50,36 @@ const Slider = () => {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
-                      transition={{ duration: 0.3 }}
+                      transition={{ duration: 0.7 }}
                       className="w-[56%] pl-8"
                     >
+                      {user && (
+                        <div className="text-3xl bebas uppercase font-black text-amber-400 relative leading-10 pb-12">
+                          <motion.p
+                            variants={slideUp(0.2)}
+                            initial="initial"
+                            animate="animate"
+                            exit="exit"
+                            className="text-teal-800 tracking-wider"
+                          >
+                            Hello -
+                            <span className="tracking-widest">
+                              {user.displayName}
+                            </span>
+                          </motion.p>
+                          <motion.p
+                            variants={slideUp(0.6)}
+                            initial="initial"
+                            animate="animate"
+                            exit="exit"
+                            className="text-amber-400 tracking-wider"
+                          >
+                            Welcome To{" "}
+                          </motion.p>{" "}
+                        </div>
+                      )}
                       <motion.h1
-                        variants={slideUp(1.1)}
+                        variants={slideUp(1.8)}
                         initial="initial"
                         animate="animate"
                         exit="exit"
@@ -68,7 +95,7 @@ const Slider = () => {
                       </motion.h1>
 
                       <motion.p
-                        variants={slideUp(1.0)}
+                        variants={slideUp(1.9)}
                         initial="initial"
                         animate="animate"
                         exit="exit"
@@ -78,7 +105,7 @@ const Slider = () => {
                       </motion.p>
 
                       <motion.p
-                        variants={slideUp(0.9)}
+                        variants={slideUp(2)}
                         initial="initial"
                         animate="animate"
                         exit="exit"
@@ -89,7 +116,7 @@ const Slider = () => {
                       </motion.p>
 
                       <motion.div
-                        variants={slideUp(0.8)}
+                        variants={slideUp(2.1)}
                         initial="initial"
                         animate="animate"
                         exit="exit"
@@ -99,12 +126,8 @@ const Slider = () => {
                     </motion.div>
 
                     {/* right side */}
-                    <motion.div
+                    <div
                       key="right-img"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.4 }}
                       className="w-[44%] h-full mx-auto relative flex justify-end items-center"
                     >
                       <motion.div
@@ -130,7 +153,7 @@ const Slider = () => {
                           className="absolute w-full"
                         />
                       </motion.div>
-                    </motion.div>
+                    </div>
                   </>
                 )}
               </AnimatePresence>

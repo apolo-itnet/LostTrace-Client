@@ -17,8 +17,8 @@ const Signup = () => {
   const { createUser, signInWithGoogle } = use(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
-  
-  const [emailError , setEmailError] = useState("");
+
+  const [emailError, setEmailError] = useState("");
 
   const [passwordError, setPasswordError] = useState([]);
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
@@ -27,13 +27,17 @@ const Signup = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const validatePassword = (password) => {
-      const error = [];
-      if (password.length < 6) error.push("Password must be at least 6 characters");
-      if (!/[A-Z]/.test(password)) error.push("Password must contain at least ONE UPPERCASE letter");
-      if (!/[a-z]/.test(password)) error.push("Password must contain at least one lowercase letter");
-      if (!/[0-9]/.test(password)) error.push("Password must contain at least one number");
-      return error;
-  }
+    const error = [];
+    if (password.length < 6)
+      error.push("Password must be at least 6 characters");
+    if (!/[A-Z]/.test(password))
+      error.push("Password must contain at least ONE UPPERCASE letter");
+    if (!/[a-z]/.test(password))
+      error.push("Password must contain at least one lowercase letter");
+    if (!/[0-9]/.test(password))
+      error.push("Password must contain at least one number");
+    return error;
+  };
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -47,7 +51,7 @@ const Signup = () => {
     setPasswordError("");
     setConfirmPasswordError("");
 
-    if (!email){
+    if (!email) {
       setEmailError("Email is required");
       toastWarning("Email is required");
       return;
@@ -55,8 +59,10 @@ const Signup = () => {
 
     const passwordErrors = validatePassword(password.value);
     if (passwordErrors.length > 0) {
-      setPasswordError(passwordErrors)
-      toastWarning('Password must be at least 6 characters long, contain at least one uppercase letter, one lowercase letter, and one number.');
+      setPasswordError(passwordErrors);
+      toastWarning(
+        "Password must be at least 6 characters long, contain at least one uppercase, one lowercase and one number."
+      );
       return;
     }
 
@@ -71,15 +77,45 @@ const Signup = () => {
       const { user } = await createUser(email.value, password.value);
 
       //firebase update profile
-      await updateProfile( user, {
+      await updateProfile(user, {
         displayName: fullName.value,
         photoURL: photo,
       });
-      toastSuccess("Successfully signed up!");
-      navigate(location.state?.from || "/", { replace: true });
+
+      // Send the user data to the MDB
+      const userData = {
+        name: fullName.value,
+        email: email.value,
+        photoURL: photo,
+        phone: phone.value,
+        role: "user",
+      };
+
+      const bangladeshTime = new Date().toLocaleString("en-US", {
+        timeZone: "Asia/Dhaka",
+      });
+
+      userData.creationTime = bangladeshTime;
+      userData.lastSignInTime = bangladeshTime;
+
+      const res = await fetch("http://localhost:5000/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
+
+      const data = await res.json();
+      if (data.insertedId) {
+        toastSuccess("Successfully signed up!");
+        navigate("/");
+      } else {
+        toastError("Failed to send MDB data!");
+      }
     } catch (err) {
       console.error(err);
-      toastError(err.message);
+      toastError("Signup failed", err.message);
     }
   };
 

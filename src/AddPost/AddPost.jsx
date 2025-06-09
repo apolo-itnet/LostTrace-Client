@@ -28,7 +28,7 @@ const AddPost = () => {
     {
       title: "Basic Info",
       content: (
-        <div className="grid gap-1">
+        <div className="grid gap-1 manrope">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <CustomInput
               type="text"
@@ -114,7 +114,7 @@ const AddPost = () => {
     {
       title: "Item Details",
       content: (
-        <div className="grid gap-1">
+        <div className="grid gap-1 manrope">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <CustomInput
               label="Date"
@@ -158,7 +158,7 @@ const AddPost = () => {
     {
       title: "Media Info",
       content: (
-        <div className="grid gap-1">
+        <div className="grid gap-1 manrope">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <CustomInput
               label="Identity Mark"
@@ -196,7 +196,7 @@ const AddPost = () => {
     {
       title: "Contact Info",
       content: (
-        <div className="grid gap-1">
+        <div className="grid gap-1 manrope">
           <div>
             <CustomInput
               label="Your Name"
