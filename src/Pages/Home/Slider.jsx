@@ -79,7 +79,7 @@ const Slider = () => {
                         </div>
                       )}
                       <motion.h1
-                        variants={slideUp(1.8)}
+                        variants={slideUp(1.2)}
                         initial="initial"
                         animate="animate"
                         exit="exit"
@@ -95,7 +95,7 @@ const Slider = () => {
                       </motion.h1>
 
                       <motion.p
-                        variants={slideUp(1.9)}
+                        variants={slideUp(1.4)}
                         initial="initial"
                         animate="animate"
                         exit="exit"
@@ -105,7 +105,7 @@ const Slider = () => {
                       </motion.p>
 
                       <motion.p
-                        variants={slideUp(2)}
+                        variants={slideUp(1.6)}
                         initial="initial"
                         animate="animate"
                         exit="exit"
@@ -116,7 +116,7 @@ const Slider = () => {
                       </motion.p>
 
                       <motion.div
-                        variants={slideUp(2.1)}
+                        variants={slideUp(1.8)}
                         initial="initial"
                         animate="animate"
                         exit="exit"

@@ -12,11 +12,13 @@ import {
 import { AuthContext } from "../../Contexts/AuthContexts";
 import { Toaster } from "react-hot-toast";
 import { updateProfile } from "firebase/auth";
+import LoaderFull from "../../Shared/Laoder/LoaderFull";
 
 const Signup = () => {
   const { createUser, signInWithGoogle } = use(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
+  const [isLoading, setIsLoading] = useState(false);
 
   const [emailError, setEmailError] = useState("");
 
@@ -41,6 +43,7 @@ const Signup = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     const form = e.target;
     const { fullName, email, password, confirmPassword, photoURL, phone } =
@@ -89,14 +92,13 @@ const Signup = () => {
         photoURL: photo,
         phone: phone.value,
         role: "user",
+        creationTime: new Date().toLocaleString("en-US", {
+          timeZone: "Asia/Dhaka",
+        }),
+        lastSignInTime: new Date().toLocaleString("en-US", {
+          timeZone: "Asia/Dhaka",
+        }),
       };
-
-      const bangladeshTime = new Date().toLocaleString("en-US", {
-        timeZone: "Asia/Dhaka",
-      });
-
-      userData.creationTime = bangladeshTime;
-      userData.lastSignInTime = bangladeshTime;
 
       const res = await fetch("http://localhost:5000/users", {
         method: "POST",
@@ -109,7 +111,11 @@ const Signup = () => {
       const data = await res.json();
       if (data.insertedId) {
         toastSuccess("Successfully signed up!");
-        navigate("/");
+
+        setTimeout(() => {
+          setIsLoading(false);
+          navigate("/");
+        }, 2000);
       } else {
         toastError("Failed to send MDB data!");
       }
@@ -132,6 +138,7 @@ const Signup = () => {
 
   return (
     <div>
+      {isLoading && <LoaderFull />}
       <Toaster reverseOrder={false} />
       <div className="max-w-7xl mx-auto res-padding flex justify-center items-start">
         <div
@@ -226,7 +233,7 @@ const Signup = () => {
                     </span>
                   </div>
                   <div className="w-full flex flex-col">
-                    <Button label={"Register"} className="w-full"></Button>
+                    <Button label={"SIGN UP"} className="w-full"></Button>
                   </div>
                 </fieldset>
               </form>
