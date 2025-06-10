@@ -110,12 +110,11 @@ const Signup = () => {
 
       const data = await res.json();
       if (data.insertedId) {
-        toastSuccess("Successfully signed up!");
-
         setTimeout(() => {
           setIsLoading(false);
           navigate("/");
         }, 2000);
+        toastSuccess("Successfully signed up!");
       } else {
         toastError("Failed to send MDB data!");
       }

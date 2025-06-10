@@ -31,7 +31,9 @@ const Signin = () => {
 
     try {
       signIn(email, password);
-      setIsLoading(false);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 5000);
       toastSuccess("Login successful");
       navigate(location.state?.from || "/", { replace: true });
     } catch (error) {
@@ -64,12 +66,9 @@ const Signin = () => {
     }
   };
 
-  if (loading) {
-    return <LoaderFull />;
-  }
-
   return (
     <div>
+      {isLoading && <LoaderFull />}
       <Toaster reverseOrder={false} />
       <div className="max-w-6xl h-[calc(100vh-83px)] mx-auto res-padding flex justify-start items-start">
         <div

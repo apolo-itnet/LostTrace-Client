@@ -26,10 +26,34 @@ import axios from "axios";
 import Button from "../Shared/Button/Button";
 import { toastSuccess } from "../Utility/notification";
 import { useNavigate } from "react-router";
+import LoaderFull from "../Shared/Laoder/LoaderFull";
 
 const AddPost = () => {
   const [step, setStep] = useState(0);
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    itemTitle: "",
+    postType: "",
+    category: "",
+    brandModel: "",
+    color: "",
+    description: "",
+    date: "",
+    time: "",
+    location: "",
+    district: "",
+    identityMark: "",
+    documentNumber: "",
+    photo: "",
+    rewards: "",
+  });
+
+  //HANDLE INPUT
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   //GET USER FROM FIREBASE AUTH
   const { user } = useAuth();
@@ -45,290 +69,378 @@ const AddPost = () => {
     }
   }, [user?.email]);
 
-  const next = () => setStep((prev) => Math.min(prev + 1, 3));
-  const prev = () => setStep((prev) => Math.max(prev - 1, 0));
-
-  const steps = [
-    {
-      title: "Basic Info",
-      content: (
-        <div className="grid gap-1 manrope">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <CustomInput
-              type="text"
-              label="Title"
-              placeholder="Enter Lost/Found Item Title"
-              name="itemTitle"
-              required
-              icon={BookA}
-            />
-
-            <CustomInput
-              label="Type"
-              type="select"
-              name="postType"
-              select={"Select Type"}
-              options={[
-                { label: "Lost", value: "lost" },
-                { label: "Found", value: "found" },
-              ]}
-              icon={ListChecks}
-              required
-              className="w-full flex"
-            />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <CustomInput
-              label="Select Category"
-              name="category"
-              type="select"
-              select={"Select Category"}
-              required
-              icon={ListChecks}
-              options={[
-                { label: "Documents", value: "documents" },
-                { label: "People", value: "people" },
-                { label: "Pets", value: "pets" },
-                { label: "Jewelry", value: "jewelry" },
-                { label: "Gadgets", value: "gadgets" },
-                { label: "Accessories", value: "accessories" },
-                { label: "Bags", value: "bags" },
-                { label: "Toys", value: "toys" },
-                { label: "Books", value: "books" },
-                { label: "Vehicle", value: "vehicle" },
-                { label: "Other", value: "other" },
-              ]}
-            />
-
-            <CustomInput
-              type="text"
-              label="Brand / Model (if applicable)"
-              placeholder="Types Brand / Model"
-              name="brandModel"
-              icon={Pen}
-              className="w-full flex"
-            />
-
-            <CustomInput
-              label="Color (if applicable)"
-              type="text"
-              placeholder="Types Colors"
-              name="color"
-              icon={Pen}
-              className="w-full flex"
-            />
-          </div>
-
-          <div>
-            <CustomInput
-              label="Description"
-              name="description"
-              type="textarea"
-              required
-              placeholder="Enter description"
-              icon={FaInfoCircle}
-            />
-          </div>
-        </div>
-      ),
-    },
-    {
-      title: "Item Details",
-      content: (
-        <div className="grid gap-1 manrope">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <CustomInput
-              label="Date"
-              placeholder="Enter date (yyyy-mm-dd)"
-              type="date"
-              name="date"
-              required
-              icon={Calendar}
-            />
-            <CustomInput
-              label="Time"
-              placeholder="Enter time (hh:mm)"
-              type="time"
-              name="time"
-              required
-              icon={Clock}
-            />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <CustomInput
-              label="Location"
-              placeholder="Enter location"
-              type="text"
-              name="location"
-              required
-              icon={MapPin}
-            />
-            <CustomInput
-              label="Zone"
-              placeholder="Enter zone"
-              type="text"
-              name="zone"
-              required
-              icon={MapPinned}
-            />
-          </div>
-        </div>
-      ),
-    },
-    {
-      title: "Media Info",
-      content: (
-        <div className="grid gap-1 manrope">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <CustomInput
-              label="Identity Mark"
-              placeholder="Enter identity mark"
-              type="text"
-              name="identityMark"
-              icon={Highlighter}
-            />
-            <CustomInput
-              label="Document Number"
-              placeholder="Enter Student ID/NID/Passport"
-              type="text"
-              name="documentNumber"
-              icon={IdCardLanyard}
-            />
-          </div>
-          <CustomInput
-            label="Photo URL"
-            placeholder="https://example.com/photo.jpg"
-            type="url"
-            name="photo"
-            icon={ImagePlus}
-          />
-          <CustomInput
-            label="Photo"
-            placeholder="Upload photo"
-            type="file"
-            name="photo"
-            accept="image/*"
-            icon={ImagePlus}
-          />
-        </div>
-      ),
-    },
-    {
-      title: "Contact Info",
-      content: (
-        <div className="grid gap-1 manrope">
-          <div>
-            <CustomInput
-              label="Your Name"
-              placeholder={
-                user?.displayName ? user?.displayName : "Enter your name"
-              }
-              name="name"
-              readonly
-              icon={User}
-              className="cursor-not-allowed"
-            />
-            <CustomInput
-              label="Email"
-              placeholder={user?.email ? user?.email : "Enter your email"}
-              type="email"
-              name="email"
-              required={false}
-              icon={Mail}
-            />
-          </div>
-          <div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <CustomInput
-                label="Phone"
-                placeholder={userDataMDB?.phone || "Enter your phone number"}
-                type="tel"
-                name="phone"
-                required={false}
-                icon={Phone}
-              />
-              <CustomInput
-                label="Phone (Optional)"
-                placeholder="Enter your phone number"
-                type="tel"
-                name="phone"
-                required={false}
-                icon={Phone}
-              />
-            </div>
-            <div>
-              <CustomInput
-                label="Rewards"
-                placeholder="e.g 5000 Taka"
-                type="number"
-                name="rewards"
-                icon={BadgeDollarSign}
-              />
-              <p className="text-sm tracking-wide manrope text-red-500 pl-12 pb-2 flex -mt-3  ">
-                if any rewards will be given to the finder
-              </p>
-            </div>
-          </div>
-        </div>
-      ),
-    },
-  ];
-
   //SEND DATA TO DATABASE
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData.entries());
+    setIsLoading(true);
 
     try {
-      await axios.post("http://localhost:5000/posts", data);
-      toastSuccess("Post added successfully!");
-      navigate("/");
-      // navigate("/my-posts");
+      await axios.post("http://localhost:5000/posts", formData);
     } catch (err) {
       console.log(err);
     }
+
+    setTimeout(() => {
+      setIsLoading(false);
+      toastSuccess("Post added successfully!");
+      // navigate("/");
+      // navigate("/my-posts");
+    }, 2000);
   };
 
+  const next = () => setStep((prev) => Math.min(prev + 1, 3));
+  const prev = () => setStep((prev) => Math.max(prev - 1, 0));
+
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-base-100 border border-base-300 shadow-none rounded-xl my-10 league text-sm">
-      <h2 className="text-xl font-bold mb-4 text-center text-teal-700">
-        Step {step + 1}: {steps[step].title}
-      </h2>
-
+    <div>
+      {isLoading && <LoaderFull />}
       <form onSubmit={handleSubmit}>
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={step}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.4 }}
-            className="space-y-2"
-          >
-            {steps[step].content}
-          </motion.div>
-        </AnimatePresence>
+        <div className="max-w-4xl mx-auto p-6 bg-base-100 border border-base-300 shadow-none rounded-xl my-10 league text-sm">
+          {/* Step Indicator */}
+          <div className="flex items-center justify-between mb-6">
+            <span
+              className={`font-semibold ${step === 0 ? "text-blue-600" : ""}`}
+            >
+              Step 1: Basic Info
+            </span>
+            <span
+              className={`font-semibold ${step === 1 ? "text-blue-600" : ""}`}
+            >
+              Step 2: Location Info
+            </span>
+            <span
+              className={`font-semibold ${step === 2 ? "text-blue-600" : ""}`}
+            >
+              Step 3: Media Info
+            </span>
+            <span
+              className={`font-semibold ${step === 3 ? "text-blue-600" : ""}`}
+            >
+              Step 4: Contact Info
+            </span>
+          </div>
 
-        <div className="flex justify-between mt-4">
-          <SecondaryBtn
-            label="Back"
-            img={<FiArrowLeft />}
-            onClick={prev}
-            // disabled={step === 0}
-          />
-          {step < steps.length - 1 ? (
-            <SecondaryBtn
-              label="Next"
-              img={<FiArrowRight />}
-              onClick={next}
-              className="border-teal-800"
-            />
-          ) : (
-            <Button label="Submit" />
+          {/* Step 1: Basic Info */}
+          {step === 0 && (
+            <AnimatePresence mode="wait">
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.4 }}
+                className="space-y-2"
+              >
+                <div className="grid gap-1 manrope">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <CustomInput
+                      type="text"
+                      label="Title"
+                      placeholder="Enter Lost/Found Item Title"
+                      name="itemTitle"
+                      value={formData.itemTitle}
+                      onChange={handleChange}
+                      required
+                      icon={BookA}
+                    />
+
+                    <CustomInput
+                      label="Type"
+                      type="select"
+                      name="postType"
+                      value={formData.postType}
+                      onChange={handleChange}
+                      select={"Select Type"}
+                      options={[
+                        { label: "Lost", value: "lost" },
+                        { label: "Found", value: "found" },
+                      ]}
+                      icon={ListChecks}
+                      required
+                      className="w-full flex"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <CustomInput
+                      label="Select Category"
+                      name="category"
+                      value={formData.category}
+                      onChange={handleChange}
+                      type="select"
+                      select={"Select Category"}
+                      required
+                      icon={ListChecks}
+                      options={[
+                        { label: "Documents", value: "documents" },
+                        { label: "People", value: "people" },
+                        { label: "Pets", value: "pets" },
+                        { label: "Jewelry", value: "jewelry" },
+                        { label: "Gadgets", value: "gadgets" },
+                        { label: "Accessories", value: "accessories" },
+                        { label: "Bags", value: "bags" },
+                        { label: "Toys", value: "toys" },
+                        { label: "Books", value: "books" },
+                        { label: "Vehicle", value: "vehicle" },
+                        { label: "Other", value: "other" },
+                      ]}
+                    />
+
+                    <CustomInput
+                      type="text"
+                      label="Brand / Model (if applicable)"
+                      placeholder="Types Brand / Model"
+                      name="brandModel"
+                      value={formData.brandModel}
+                      onChange={handleChange}
+                      icon={Pen}
+                      className="w-full flex"
+                    />
+
+                    <CustomInput
+                      label="Color (if applicable)"
+                      type="text"
+                      placeholder="Types Colors"
+                      name="color"
+                      value={formData.color}
+                      onChange={handleChange}
+                      icon={Pen}
+                      className="w-full flex"
+                    />
+                  </div>
+
+                  <div>
+                    <CustomInput
+                      label="Description"
+                      name="description"
+                      value={formData.description}
+                      onChange={handleChange}
+                      type="textarea"
+                      required
+                      placeholder="Enter description"
+                      icon={FaInfoCircle}
+                    />
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
           )}
+
+          {/* Step 2: Location Info */}
+          {step === 1 && (
+            <AnimatePresence mode="wait">
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.4 }}
+                className="space-y-2"
+              >
+                <div className="grid gap-1 manrope">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <CustomInput
+                      label="Date"
+                      placeholder="Enter date (yyyy-mm-dd)"
+                      type="date"
+                      name="date"
+                      value={formData.date}
+                      onChange={handleChange}
+                      required
+                      icon={Calendar}
+                    />
+                    <CustomInput
+                      label="Time"
+                      placeholder="Enter time (hh:mm)"
+                      type="time"
+                      name="time"
+                      value={formData.time}
+                      onChange={handleChange}
+                      required
+                      icon={Clock}
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <CustomInput
+                      label="Location"
+                      placeholder="Enter location"
+                      type="text"
+                      name="location"
+                      value={formData.location}
+                      onChange={handleChange}
+                      required
+                      icon={MapPin}
+                    />
+                    <CustomInput
+                      label="District"
+                      placeholder="Enter district"
+                      type="text"
+                      name="district"
+                      value={formData.district}
+                      onChange={handleChange}
+                      required
+                      icon={MapPinned}
+                    />
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          )}
+
+          {/* Step 3: Media Info */}
+          {step === 2 && (
+            <AnimatePresence mode="wait">
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.4 }}
+                className="space-y-2"
+              >
+                <div className="grid gap-1 manrope">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <CustomInput
+                      label="Identity Mark"
+                      placeholder="Enter identity mark"
+                      type="text"
+                      name="identityMark"
+                      value={formData.identityMark}
+                      onChange={handleChange}
+                      required={false}
+                      icon={Highlighter}
+                    />
+                    <CustomInput
+                      label="Document Number"
+                      placeholder="Enter Student ID/NID/Passport"
+                      type="text"
+                      name="documentNumber"
+                      value={formData.documentNumber}
+                      onChange={handleChange}
+                      required={false}
+                      icon={IdCardLanyard}
+                    />
+                  </div>
+                  <CustomInput
+                    label="Photo URL"
+                    placeholder="https://example.com/photo.jpg"
+                    type="url"
+                    name="photo"
+                    value={formData.photo}
+                    onChange={handleChange}
+                    icon={ImagePlus}
+                  />
+                  <CustomInput
+                    label="Photo"
+                    placeholder="Upload photo"
+                    type="file"
+                    name="photoFile"
+                    value={formData.photoFile}
+                    onChange={handleChange}
+                    disabled
+                    accept="image/*"
+                    icon={ImagePlus}
+                  />
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          )}
+
+          {/* Step 4: Contact Info */}
+          {step === 3 && (
+            <AnimatePresence mode="wait">
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.4 }}
+                className="space-y-2"
+              >
+                <div className="grid gap-1 manrope">
+                  <div>
+                    <CustomInput
+                      label="Your Name"
+                      type="text"
+                      name="name"
+                      value={user?.displayName}
+                      onChange={handleChange}
+                      readonly
+                      icon={User}
+                      className="cursor-not-allowed"
+                    />
+                    <CustomInput
+                      label="Email"
+                      type="email"
+                      name="email"
+                      value={user?.email}
+                      onChange={handleChange}
+                      readonly
+                      required={false}
+                      icon={Mail}
+                    />
+                  </div>
+                  <div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <CustomInput
+                        label="Phone"
+                        type="tel"
+                        name="phone"
+                        value={userDataMDB?.phone}
+                        onChange={handleChange}
+                        readonly
+                        required={false}
+                        icon={Phone}
+                      />
+                      <CustomInput
+                        label="Phone (Optional)"
+                        placeholder="Enter your phone number"
+                        type="number"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        required={false}
+                        icon={Phone}
+                      />
+                    </div>
+                    <div>
+                      <CustomInput
+                        label="Rewards"
+                        placeholder="e.g 5000 Taka"
+                        type="number"
+                        name="rewards"
+                        value={formData.rewards}
+                        onChange={handleChange}
+                        icon={BadgeDollarSign}
+                      />
+                      <p className="text-sm tracking-wide manrope text-red-500 pl-12 pb-2 flex -mt-3  ">
+                        if any rewards will be given to the finder
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          )}
+
+          <div className="flex justify-between mt-4">
+            <SecondaryBtn
+              label="Back"
+              img={<FiArrowLeft />}
+              onClick={prev}
+              // disabled={step === 0}
+            />
+            {step < 3 ? (
+              <SecondaryBtn
+                label="Next"
+                img={<FiArrowRight />}
+                onClick={next}
+                className="border-teal-800"
+              />
+            ) : (
+              // <Button label="Submit" type="submit" disabled={isLoading}> {
+              //   isLoading ? <LoaderFull /> : "Submit"
+              // } </Button>
+              <Button label="Submit" type="submit" />
+            )}
+          </div>
         </div>
       </form>
     </div>

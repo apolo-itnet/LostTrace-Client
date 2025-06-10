@@ -12,7 +12,8 @@ export default function CustomInput({
   options = [],
   select = "Select an option",
   rows = 3,
-  readonly, 
+  readonly,
+  disabled, 
 }) {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -106,10 +107,11 @@ export default function CustomInput({
             name={name}
             required={required}
             onChange={onChange}
+            disabled={disabled}
             className="file-input file-input-bordered w-full"
           />
         </div>
-      ) : (
+      )  : (
         // for - (text, email, date, password, etc)
         <div className={baseWrapper}>
           {Icon && (
@@ -123,13 +125,13 @@ export default function CustomInput({
             type={type}
             name={name}
             placeholder={placeholder}
+            value={value}
             required={required}
-            className={inputStyle}
+            readOnly={readonly}
+            onChange={onChange}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
-            value={value}
-            onChange={onChange}
-            readOnly={readonly}
+            className={inputStyle}
           />
         </div>
       )}
