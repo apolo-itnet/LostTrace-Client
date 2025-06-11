@@ -9,7 +9,6 @@ const SocialLogin = ({ from }) => {
 
   // Function to handle Google login
   const handleGoogleLogin = async () => {
-    console.log(handleGoogleLogin);
     
     try {
       await signInWithGoogle();
@@ -61,3 +60,4 @@ const SocialLogin = ({ from }) => {
 };
 
 export default SocialLogin;
+

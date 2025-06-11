@@ -18,23 +18,33 @@ import { slideDown } from "../Utility/animation";
 import { AuthContext } from "../Contexts/AuthContexts";
 import { toastError, toastSuccess } from "../Utility/notification";
 import { Toaster } from "react-hot-toast";
+import LoaderFull from "./Laoder/LoaderFull";
 
 const Navbar = ({ toggleTheme, theme }) => {
   const { user, logOut } = use(AuthContext);
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSignout = () => {
-    logOut()
-      .then(() => {
-        toastSuccess("Successfully signed out!");
-        navigate("/");
-      })
-      .catch((error) => {
-        console.error("Sign-out error:", error);
-        toastError(`Sign-out failed: ${error.message}`);
-      });
+  const handleSignout = async () => {
     setIsDropdownOpen(false);
+    setIsLoading(true);
+
+    try {
+      await logOut();
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
+      toastSuccess("Successfully signed out!");
+      // navigate("/");
+
+    } catch (error) {
+      setIsLoading(false);
+      console.error("Sign-out error:", error);
+      toastError(`Sign-out failed: ${error.message}`, {
+        style: { color: "red" },
+      });
+    }
   };
 
   const navLinks = [
@@ -50,6 +60,7 @@ const Navbar = ({ toggleTheme, theme }) => {
 
   return (
     <div>
+      {isLoading && <LoaderFull/>}
       <Toaster reverseOrder={false} />
       <div className="flex justify-center items-center py-1 bg-base-100 border-b border-gray-100  res-padding manrope">
         <motion.div

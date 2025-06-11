@@ -33,7 +33,7 @@ const Signin = () => {
       signIn(email, password);
       setTimeout(() => {
         setIsLoading(false);
-      }, 5000);
+      }, 2000);
       toastSuccess("Login successful");
       navigate(location.state?.from || "/", { replace: true });
     } catch (error) {
@@ -70,7 +70,7 @@ const Signin = () => {
     <div>
       {isLoading && <LoaderFull />}
       <Toaster reverseOrder={false} />
-      <div className="max-w-6xl h-[calc(100vh-83px)] mx-auto res-padding flex justify-start items-start">
+      <div className="max-w-6xl mx-auto res-padding flex justify-start items-start">
         <div
           data-aos="fade-in"
           data-aos-duration="1000"
@@ -126,7 +126,7 @@ const Signin = () => {
         <div
           data-aos="fade-left"
           data-aos-duration="1000"
-          className="my-10 h-fit responsive-padding flex-1 flex-col justify-center gap-4 items-center"
+          className="my-10 w-full h-full responsive-padding flex-1 flex-col justify-center gap-4 items-center"
         >
           <div>
             <p className="text-4xl font-bold text-center py-2 ">Welcome Back</p>
@@ -138,7 +138,7 @@ const Signin = () => {
           <img
             src={"https://i.postimg.cc/Fzmmpzh7/Login.webp"}
             alt=""
-            className="h-[calc(80vh-83px)] mx-auto py-2"
+            className=" h-96 mx-auto py-2"
           />
         </div>
       </div>

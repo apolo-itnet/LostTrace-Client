@@ -58,7 +58,7 @@ const AddPost = () => {
   //GET USER FROM FIREBASE AUTH
   const { user } = useAuth();
 
-  //GET USER FROM MONGODB
+  //GET USER DATA FROM MONGODB
   const [userDataMDB, setUserDataMDB] = useState(null);
   useEffect(() => {
     if (user?.email) {
@@ -68,6 +68,18 @@ const AddPost = () => {
         .catch((err) => console.log("Failed to get data", err));
     }
   }, [user?.email]);
+
+  //USER PREFILLED DATA STORE ON MONGODB
+  useEffect(() => {
+    if (user && userDataMDB) {
+      setFormData((prev) => ({
+        ...prev,
+        name: user?.displayName || "",
+        email: user?.email || "",
+        phone: userDataMDB?.phone || "",
+      }));
+    }
+  }, [user, userDataMDB]);
 
   //SEND DATA TO DATABASE
   const handleSubmit = async (e) => {
@@ -86,6 +98,7 @@ const AddPost = () => {
       // navigate("/");
       // navigate("/my-posts");
     }, 2000);
+    form.reset();
   };
 
   const next = () => setStep((prev) => Math.min(prev + 1, 3));
@@ -360,7 +373,8 @@ const AddPost = () => {
                       label="Your Name"
                       type="text"
                       name="name"
-                      value={user?.displayName}
+                      defaultValue={user?.displayName}
+                      value={formData.name}
                       onChange={handleChange}
                       readonly
                       icon={User}
@@ -370,7 +384,8 @@ const AddPost = () => {
                       label="Email"
                       type="email"
                       name="email"
-                      value={user?.email}
+                      defaultValue={user?.email}
+                      value={formData.email}
                       onChange={handleChange}
                       readonly
                       required={false}
@@ -381,9 +396,10 @@ const AddPost = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <CustomInput
                         label="Phone"
-                        type="tel"
+                        type="number"
                         name="phone"
-                        value={userDataMDB?.phone}
+                        defaultValue={userDataMDB?.phone}
+                        value={formData.phone}
                         onChange={handleChange}
                         readonly
                         required={false}
@@ -393,9 +409,8 @@ const AddPost = () => {
                         label="Phone (Optional)"
                         placeholder="Enter your phone number"
                         type="number"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
+                        name="phoneOptional"
+                        value={formData.phoneOptional}
                         required={false}
                         icon={Phone}
                       />
@@ -421,23 +436,24 @@ const AddPost = () => {
           )}
 
           <div className="flex justify-between mt-4">
-            <SecondaryBtn
-              label="Back"
-              img={<FiArrowLeft />}
-              onClick={prev}
-              // disabled={step === 0}
-            />
+            {step > 0 && (
+              <SecondaryBtn
+                type="button"
+                label="Back"
+                img={<FiArrowLeft />}
+                onClick={prev}
+                disabled={step === 0}
+              />
+            )}
             {step < 3 ? (
               <SecondaryBtn
+                type="button"
                 label="Next"
                 img={<FiArrowRight />}
                 onClick={next}
                 className="border-teal-800"
               />
             ) : (
-              // <Button label="Submit" type="submit" disabled={isLoading}> {
-              //   isLoading ? <LoaderFull /> : "Submit"
-              // } </Button>
               <Button label="Submit" type="submit" />
             )}
           </div>

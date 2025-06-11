@@ -21,4 +21,3 @@
 .btn-primary {
   @apply text-base-100 rounded-lg border border-transparent shadow-none bg-blue-600 hover:bg-gray-700 transition duration-500 focus:outline-hidden focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none;
 }
-

@@ -139,7 +139,7 @@ const Signup = () => {
     <div>
       {isLoading && <LoaderFull />}
       <Toaster reverseOrder={false} />
-      <div className="max-w-7xl mx-auto res-padding flex justify-center items-start">
+      <div className="max-w-6xl mx-auto res-padding flex justify-center items-start">
         <div
           data-aos="fade-right"
           data-aos-duration="1000"
@@ -256,7 +256,7 @@ const Signup = () => {
             </p>
           </div>
           <img
-            src={"https://i.postimg.cc/50TVZnqY/undraw-chore-list-ylw0.png"}
+            src={"https://i.postimg.cc/VNPPxzqy/vector-1-1.png"}
             alt=""
           />
         </div>
