@@ -49,7 +49,7 @@ const Navbar = ({ toggleTheme, theme }) => {
 
   const navLinks = [
     { label: "Home", href: "/", icon: <FaHome /> },
-    { label: "Lost & Found", href: "/items", icon: <FaSearch /> },
+    { label: "Browse Listings", href: "/all-post", icon: <FaSearch /> },
   ];
 
   const privateLinks = [

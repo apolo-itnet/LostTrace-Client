@@ -6,6 +6,10 @@ import Signin from "../Pages/Signin/Signin";
 import Signup from "../Pages/Signup/Signup";
 import AddPost from "../AddPost/AddPost";
 import PrivateRoutes from "../Routes/PrivateRoutes";
+import PostDetails from "../Pages/PostDetails/PostDetails";
+import LoaderFull from "../Shared/Laoder/LoaderFull";
+import MyPost from "../Pages/MyPostedList/MyPost.";
+import AllPosts from "../Pages/AllPosts/AllPosts";
 
 const Router = createBrowserRouter([
   {
@@ -31,6 +35,34 @@ const Router = createBrowserRouter([
             <AddPost />
           </PrivateRoutes>
         ),
+      },
+      {
+        path: "/all-post",
+        loader: () => fetch(`http://localhost:5000/posts`),
+        element: <AllPosts />,
+        hydrateFallbackElement: <LoaderFull />,
+      },
+      {
+        path: "/posts/:id",
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/posts/${params.id}`),
+        element: (
+          <PrivateRoutes>
+            <PostDetails />
+          </PrivateRoutes>
+        ),
+        hydrateFallbackElement: <LoaderFull />,
+      },
+      {
+        path: "/my-posted-list",
+        element: (
+          <PrivateRoutes>
+            <MyPost />
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "/recovered",
       },
     ],
   },

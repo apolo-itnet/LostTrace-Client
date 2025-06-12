@@ -22,7 +22,7 @@ const PostCard = ({ post, ...props }) => {
   } = post;
   return (
     <div {...props}>
-      <div className="rounded-xl border-2 border-base-300 p-4 bg-base-100 hover:border-teal-800 hover:shadow-sm hover:-translate-y-3 transition-all duration-500 space-y-4 h-full">
+      <div className="rounded-xl border border-base-300 p-4 bg-base-100 hover:border-teal-800 hover:shadow-sm hover:-translate-y-1 transition-all duration-500 space-y-4 h-full">
         <div className="flex flex-col justify-center gap-2 min-h-full ">
           {/* Header */}
           <div className="flex items-center gap-4 w-full">
@@ -78,7 +78,7 @@ const PostCard = ({ post, ...props }) => {
           {/* Button */}
           <div className="flex w-full justify-center items-center">
             <Link to={`/posts/${_id}`}>
-              <SecondaryBtn label={"Post Details"}>
+              <SecondaryBtn label={"View Details"}>
               </SecondaryBtn>
             </Link>
           </div>

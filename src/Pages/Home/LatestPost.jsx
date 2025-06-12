@@ -16,7 +16,7 @@ const LatestPost = ({ postPromise }) => {
     <div>
       <div className="text-center my-10">
         <h2 className="text-2xl font-bold mb-6 text-center">Latest Posts</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 responsive-padding">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 res-padding">
           {posts.map((post, index) => (
             <PostCard
               key={post._id}
