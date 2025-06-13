@@ -47,6 +47,9 @@ const AddPost = () => {
     documentNumber: "",
     photo: "",
     rewards: "",
+    creationTime: new Date().toLocaleString("en-US", {
+      timeZone: "Asia/Dhaka",
+    }),
   });
 
   //HANDLE INPUT
@@ -422,6 +425,7 @@ const AddPost = () => {
                         type="number"
                         name="rewards"
                         value={formData.rewards}
+                        required={false}
                         onChange={handleChange}
                         icon={BadgeDollarSign}
                       />

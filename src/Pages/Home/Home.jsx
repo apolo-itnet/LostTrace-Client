@@ -2,7 +2,7 @@ import React from "react";
 import Slider from "./Slider";
 import LatestPost from "./LatestPost";
 
-const postPromise = fetch("http://localhost:5000/posts").then((res) =>
+const postPromise = fetch("http://localhost:5000/posts/latest").then((res) =>
   res.json()
 );
 

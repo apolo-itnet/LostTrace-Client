@@ -1,6 +1,8 @@
 import Aos from "aos";
 import React, { use, useEffect } from "react";
 import PostCard from "../../Shared/PostCard";
+import Button from "../../Shared/Button/Button";
+import { Link } from "react-router";
 
 const LatestPost = ({ postPromise }) => {
   const posts = use(postPromise);
@@ -9,7 +11,7 @@ const LatestPost = ({ postPromise }) => {
     Aos.init({
       duration: 1000,
       once: false,
-    })
+    });
   }, []);
 
   return (
@@ -25,6 +27,11 @@ const LatestPost = ({ postPromise }) => {
               data-aos-delay={index * 150}
             ></PostCard>
           ))}
+        </div>
+        <div className="flex justify-center mt-6">
+          <Link to="/all-post">
+            <Button label="View All Posts" />
+          </Link>
         </div>
       </div>
     </div>
