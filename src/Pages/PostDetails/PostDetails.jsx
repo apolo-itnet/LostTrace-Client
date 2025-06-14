@@ -8,13 +8,15 @@ const PostDetails = () => {
   //GET FIREBASE USER
   const { user } = useAuth();
   const userPostData = useLoaderData();
-
+  
 
   //FETCH USER FROM MONGODB
   const [userData, setUserData] = useState({});
   useEffect(() => {
     const fetchUserData = async () => {
-      const res = await fetch(`http://localhost:5000/users/${userPostData.email}`);
+      const res = await fetch(
+        `http://localhost:5000/users/${userPostData.email}`
+      );
       const data = await res.json();
       setUserData(data);
     };
@@ -38,12 +40,16 @@ const PostDetails = () => {
             <div className="w-lg flex justify-between items-center mb-4">
               <div className="flex items-center space-x-2">
                 <img
-                  src={userData?.photoURL || "https://i.postimg.cc/rpZPq7cP/user-4.png"}
+                  src={
+                    userData?.photoURL ||
+                    "https://i.postimg.cc/rpZPq7cP/user-4.png"
+                  }
                   alt="Posted By"
                   className="w-12 h-12 rounded-full"
                 />
                 <p className="text-sm text-gray-600 ">
-                  posted by <span className="font-bold"> {userData?.name || ""}</span>
+                  posted by{" "}
+                  <span className="font-bold"> {userData?.name || ""}</span>
                 </p>
               </div>
               <button className="text-blue-500 hover:text-blue-700">
@@ -70,7 +76,6 @@ const PostDetails = () => {
         {/* Right Side */}
         <div className="flex-1 uppercase">
           {/* Body */}
-
           <div className="mb-4">
             <h3 className="text-4xl font-semibold league uppercase text-teal-600">
               {userPostData.itemTitle}
@@ -92,12 +97,10 @@ const PostDetails = () => {
               </p>
             </div>
           </div>
-
           <div className="flex gap-2 pb-4">
             <p className="font-bold">Category</p>
             <p className="text-gray-600">{userPostData.category}</p>
           </div>
-
           <div className="flex flex-col gap-2 py-4">
             <div className="flex gap-2">
               <p className="font-bold">Lost Date -</p>
@@ -108,7 +111,6 @@ const PostDetails = () => {
               <p>{userPostData.time}</p>
             </div>
           </div>
-
           <div className="flex flex-col gap-2">
             <div className="flex gap-2">
               <p className="font-bold">Lost Location -</p>
@@ -123,16 +125,24 @@ const PostDetails = () => {
             <p className="font-bold">Rewards - </p>
             <p className="font-bold text-teal-600">{userPostData.rewards}</p>
           </div>
-
-          <div className="flex">
+          {userPostData.status === "recovered" ? (
             <Button
-              label={postType}
-              onClick={() => document.getElementById("my_modal_5").showModal()}
-            >
-              {" "}
-              <RecoveryPost />{" "}
-            </Button>
-          </div>
+              label="Already Recovered"
+              type="button"
+              disabled={true}
+            ></Button>
+          ) : (
+            <div className="flex">
+              <Button
+                label={postType}
+                type="button"
+                onClick={() =>
+                  document.getElementById("recovery-modal").showModal()
+                }
+              />
+              <RecoveryPost post={userPostData} />
+            </div>
+          )}
         </div>
       </div>
     </div>

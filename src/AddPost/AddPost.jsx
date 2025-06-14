@@ -72,7 +72,7 @@ const AddPost = () => {
     }
   }, [user?.email]);
 
-  //USER PREFILLED DATA STORE ON MONGODB
+  //USER PREFILLED DATA ON FIREBASE & MONGODB
   useEffect(() => {
     if (user && userDataMDB) {
       setFormData((prev) => ({

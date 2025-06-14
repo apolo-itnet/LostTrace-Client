@@ -232,7 +232,7 @@ const Signup = () => {
                     </span>
                   </div>
                   <div className="w-full flex flex-col">
-                    <Button label={"SIGN UP"} className="w-full"></Button>
+                    <Button label={"SIGN UP"} type="submit"  className="w-full"></Button>
                   </div>
                 </fieldset>
               </form>

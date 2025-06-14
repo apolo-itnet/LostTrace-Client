@@ -114,7 +114,7 @@ const Signin = () => {
                     </a>
                   </div>
                   <div className="w-full flex flex-col">
-                    <Button label={"Sign in"} className="w-full"></Button>
+                    <Button label={"Sign in"} type="submit" className="w-full"></Button>
                   </div>
                 </fieldset>
               </form>
