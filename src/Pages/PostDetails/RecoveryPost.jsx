@@ -13,7 +13,6 @@ const RecoveryPost = ({ post }) => {
   const [recoveredDate, setRecoveredDate] = useState(
     new Date().toLocaleString("en-US", { timeZone: "Asia/Dhaka" })
   );
-  const [hasRecovered, setHasRecovered] = useState(false);
 
   //GET USER DATA FROM MONGODB
   const [userDataMDB, setUserDataMDB] = useState(null);
@@ -29,11 +28,6 @@ const RecoveryPost = ({ post }) => {
   //RECOVERY-POST DATA SEND TO MONGODB
   const handleRecovery = async (e) => {
     e.preventDefault();
-
-    if (hasRecovered || post.status === "recovered") {
-      toastWarning("Already recovered!");
-      return;
-    }
 
     const recoveryData = {
       postId: post._id,
@@ -59,14 +53,11 @@ const RecoveryPost = ({ post }) => {
 
       if (data.success) {
         toastSuccess("Recovered successfully!");
-        setHasRecovered(true);
         document.getElementById("recovery-modal").close();
         setTimeout(() => {
           window.location.reload();
         }, 800);
-      } else {
-        toastWarning("Already recovered!");
-      }
+      } 
     } catch (err) {
       console.log("Recovery submission error", err);
       toastWarning("Recovery submission failed!");

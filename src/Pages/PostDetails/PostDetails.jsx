@@ -8,9 +8,8 @@ const PostDetails = () => {
   //GET FIREBASE USER
   const { user } = useAuth();
   const userPostData = useLoaderData();
-  
 
-  //FETCH USER FROM MONGODB
+  //FETCH USER DATA FROM MONGODB
   const [userData, setUserData] = useState({});
   useEffect(() => {
     const fetchUserData = async () => {
@@ -28,6 +27,12 @@ const PostDetails = () => {
   //IF POST TYPE IS LOST AND FOUND THE BUTTON IS LOST, ELSE IT IS FOUND
   const postType =
     userPostData.postType === "lost" ? "Found This!" : "This is Mine!";
+
+  // DISBALED THE BUTTON POSTED USER CAN'T CLICK THE BUTTON
+  const isPostedByUser = user?.email === userPostData?.email;
+
+  //IF POST IS RECOVERED THE BUTTON IS DISABLED
+  const isRecovered = userPostData.status === "recovered";
 
   return (
     <div>
@@ -125,12 +130,25 @@ const PostDetails = () => {
             <p className="font-bold">Rewards - </p>
             <p className="font-bold text-teal-600">{userPostData.rewards}</p>
           </div>
-          {userPostData.status === "recovered" ? (
-            <Button
-              label="Already Recovered"
-              type="button"
-              disabled={true}
-            ></Button>
+          {isPostedByUser ? (
+            <div className="inline-flex flex-col gap-2 ">
+              <Button
+                label="You cannot recover your own post"
+                type="button"
+                disabled
+                className="text-red-500"
+              />
+              <p className="text-red-500 text-sm font-medium">
+                You are the owner of the post
+              </p>
+            </div>
+          ) : isRecovered ? (
+            <div className="inline-flex flex-col gap-2 ">
+              <Button label="Already Recovered" type="button" disabled className="text-red-500" />
+              <p className="text-red-500 text-sm font-medium">
+                This post is already recovered
+              </p>
+            </div>
           ) : (
             <div className="flex">
               <Button
