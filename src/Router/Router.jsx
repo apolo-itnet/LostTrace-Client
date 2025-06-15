@@ -10,6 +10,7 @@ import PostDetails from "../Pages/PostDetails/PostDetails";
 import LoaderFull from "../Shared/Laoder/LoaderFull";
 import MyPost from "../Pages/MyPostedList/MyPost.";
 import AllPosts from "../Pages/AllPosts/AllPosts";
+import UpdatePost from "../AddPost/UpdatePost";
 
 const Router = createBrowserRouter([
   {
@@ -62,7 +63,15 @@ const Router = createBrowserRouter([
         ),
       },
       {
-        path: "/recovered",
+        path: "/update-post/:id",
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/posts/${params.id}`),
+        element: (
+          <PrivateRoutes>
+           <UpdatePost/>
+          </PrivateRoutes>
+        ),
+        hydrateFallbackElement: <LoaderFull />,
       },
     ],
   },

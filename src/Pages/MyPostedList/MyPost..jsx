@@ -3,7 +3,6 @@ import PostList from "./PostList";
 import useAuth from "../../Hooks/useAuth";
 import { myPostPromise } from "../../API/myPostApi";
 import { ListCheck, ListTodo } from "lucide-react";
-import EmptyPostAnimation from "../../Shared/Animation/EmptyPostAnimation";
 import LoaderFull from "../../Shared/Laoder/LoaderFull";
 
 const MyPost = () => {

@@ -60,7 +60,7 @@ const PostList = ({ myPostPromise }) => {
 
             <div className="flex items-center justify-center cursor-pointer">
               <Link
-                to={`/posts/${post._id}`}
+                to={`/update-post/${post._id}`}
                 className="btn bg-amber-400 hover:bg-teal-800 transition-colors ease-out duration-300 !rounded-lg w-8 h-8 p-5 flex items-center justify-center  "
               >
                 <button>

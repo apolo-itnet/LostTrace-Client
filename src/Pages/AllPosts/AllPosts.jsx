@@ -6,8 +6,6 @@ import PostCard from "../../Shared/PostCard";
 const AllPosts = () => {
   const postData = useLoaderData();
 
-  console.log(postData);
-
   return (
     <div>
       <h1>AllPosts</h1>

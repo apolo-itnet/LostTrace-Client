@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate, useParams } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiArrowRight, FiArrowLeft } from "react-icons/fi";
 import CustomInput from "../Shared/CustomInput";
-import { FaInfoCircle } from "react-icons/fa";
+import Button from "../Shared/Button/Button";
+import SecondaryBtn from "../Shared/Button/SecondaryBtn";
 import {
   BadgeDollarSign,
   BookA,
@@ -19,44 +21,46 @@ import {
   Phone,
   User,
 } from "lucide-react";
-import SecondaryBtn from "../Shared/Button/SecondaryBtn";
-import useAuth from "../Hooks/useAuth";
-import axios from "axios";
-import Button from "../Shared/Button/Button";
-import { toastSuccess, toastWarning } from "../Utility/notification";
-import { useNavigate } from "react-router";
+import { FaInfoCircle } from "react-icons/fa";
+import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
+import {
+  toastError,
+  toastSuccess,
+  toastWarning,
+} from "../Utility/notification";
+import { getPostById } from "../API/GetAllPosts";
 import LoaderFull from "../Shared/Laoder/LoaderFull";
+import EmptyPostAnimation from "../Shared/Animation/EmptyPostAnimation";
+import useAuth from "../Hooks/useAuth";
 
-const AddPost = () => {
-  const [step, setStep] = useState(0);
+const UpdatePost = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
+  const [step, setStep] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [errorFieldBorder, setErrorFieldBorder] = useState({});
-  const [formData, setFormData] = useState({
-    itemTitle: "",
-    postType: "",
-    category: "",
-    brandModel: "",
-    color: "",
-    description: "",
-    date: "",
-    time: "",
-    location: "",
-    district: "",
-    identityMark: "",
-    documentNumber: "",
-    photo: "",
-    rewards: "",
-    creationTime: new Date().toLocaleString("en-US", {
-      timeZone: "Asia/Dhaka",
-    }),
-  });
+  const [formData, setFormData] = useState(null);
+
+  //DATA FETCHING FROM API AND PREFILLED FORM
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        setIsLoading(true);
+        const data = await getPostById(id);
+        setFormData(data);
+        setIsLoading(false);
+      } catch (err) {
+        console.error("Error fetching post:", err);
+        setIsLoading(false);
+      }
+    };
+
+    fetchPost();
+  }, [id]);
 
   //HANDLE INPUT
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    setErrorFieldBorder((prev) => ({ ...prev, [name]: false }));
   };
 
   //GET USER FROM FIREBASE AUTH
@@ -91,48 +95,33 @@ const AddPost = () => {
     setIsLoading(true);
 
     try {
-      await axios.post("http://localhost:5000/posts", formData);
+      const { _id, ...postToUpdate } = formData;
+      postToUpdate.updateTime = new Date().toLocaleString("en-US", {
+        timeZone: "Asia/Dhaka",
+      });
+      const res = await axios.put(
+        `http://localhost:5000/posts/${_id}`,
+        postToUpdate
+      );
+      console.log("Post updated successfully:", res.data);
+
       setTimeout(() => {
         setIsLoading(false);
-        toastSuccess("Post added successfully!");
+        toastSuccess("Post updated successfully!");
         navigate("/my-posted-list");
         e.target.reset();
       }, 2000);
     } catch (err) {
       console.error(err);
-      toastError("Failed to submit post.");
+      toastError("Failed to update post.");
       setIsLoading(false);
     }
   };
 
-  // ✅ STEP-WISE VALIDATION
-  const handleNext = () => {
-    const requiredFieldsPerStep = {
-      0: ["itemTitle", "postType", "category", "description"],
-      1: ["date", "time", "location", "district"],
-      2: ["photo"],
-      3: [],
-    };
+  if (isLoading) return <LoaderFull />;
+  if (!formData) return <EmptyPostAnimation />;
 
-    const currentRequired = requiredFieldsPerStep[step];
-    const newErrors = {};
-
-    const missingField = currentRequired.find((field) => {
-      const isEmpty = !formData[field]?.trim();
-      if (isEmpty) newErrors[field] = true;
-      return isEmpty;
-    });
-
-    if (missingField) {
-      setErrorFieldBorder(newErrors);
-      toastWarning(`Please fill the required field: ${missingField}`);
-      return;
-    }
-
-    setErrorFieldBorder({});
-    if (step < 3) setStep(step + 1);
-  };
-
+  const next = () => setStep((next) => Math.min(next + 1, 3));
   const prev = () => setStep((prev) => Math.max(prev - 1, 0));
 
   return (
@@ -143,7 +132,7 @@ const AddPost = () => {
       <div className="py-8 bg-teal-800 text-base-100 sticky top-18.5 z-10 w-full">
         <div className="res-padding">
           <h1 className="text-6xl font-semibold bebas tracking-wide py-4">
-            Add Post
+            Update Post
           </h1>
         </div>
       </div>
@@ -189,13 +178,10 @@ const AddPost = () => {
                     <CustomInput
                       type="text"
                       label="Title"
-                      placeholder="Enter Lost/Found Item Title"
                       name="itemTitle"
+                      placeholder="Enter title"
                       value={formData.itemTitle}
                       onChange={handleChange}
-                      className={`input input-bordered w-full ${
-                        errorFieldBorder.itemTitle ? "border-red-500" : ""
-                      }`}
                       icon={BookA}
                     />
 
@@ -211,9 +197,6 @@ const AddPost = () => {
                         { label: "Found", value: "found" },
                       ]}
                       icon={ListChecks}
-                      className={`input input-bordered w-full ${
-                        errorFieldBorder.postType ? "border-red-500" : ""
-                      }`}
                     />
                   </div>
 
@@ -225,9 +208,6 @@ const AddPost = () => {
                       onChange={handleChange}
                       type="select"
                       select={"Select Category"}
-                      className={`input input-bordered w-full ${
-                        errorFieldBorder.category ? "border-red-500" : ""
-                      }`}
                       icon={ListChecks}
                       options={[
                         { label: "Documents", value: "documents" },
@@ -274,9 +254,6 @@ const AddPost = () => {
                       value={formData.description}
                       onChange={handleChange}
                       type="textarea"
-                      className={`input input-bordered w-full ${
-                        errorFieldBorder.description ? "border-red-500" : ""
-                      }`}
                       placeholder="Enter description"
                       icon={FaInfoCircle}
                     />
@@ -305,9 +282,6 @@ const AddPost = () => {
                       name="date"
                       value={formData.date}
                       onChange={handleChange}
-                      className={`input input-bordered w-full ${
-                        errorFieldBorder.date ? "border-red-500" : ""
-                      }`}
                       icon={Calendar}
                     />
                     <CustomInput
@@ -317,9 +291,6 @@ const AddPost = () => {
                       name="time"
                       value={formData.time}
                       onChange={handleChange}
-                      className={`input input-bordered w-full ${
-                        errorFieldBorder.time ? "border-red-500" : ""
-                      }`}
                       icon={Clock}
                     />
                   </div>
@@ -332,9 +303,6 @@ const AddPost = () => {
                       name="location"
                       value={formData.location}
                       onChange={handleChange}
-                      className={`input input-bordered w-full ${
-                        errorFieldBorder.location ? "border-red-500" : ""
-                      }`}
                       icon={MapPin}
                     />
                     <CustomInput
@@ -344,9 +312,6 @@ const AddPost = () => {
                       name="district"
                       value={formData.district}
                       onChange={handleChange}
-                      className={`input input-bordered w-full ${
-                        errorFieldBorder.district ? "border-red-500" : ""
-                      }`}
                       icon={MapPinned}
                     />
                   </div>
@@ -395,9 +360,6 @@ const AddPost = () => {
                     name="photo"
                     value={formData.photo}
                     onChange={handleChange}
-                    className={`input input-bordered w-full ${
-                      errorFieldBorder.photo ? "border-red-500" : ""
-                    }`}
                     icon={ImagePlus}
                   />
                   <CustomInput
@@ -510,7 +472,7 @@ const AddPost = () => {
                 type="button"
                 label="Next"
                 img={<FiArrowRight />}
-                onClick={handleNext}
+                onClick={next}
                 className="border-teal-800"
               />
             ) : (
@@ -523,4 +485,4 @@ const AddPost = () => {
   );
 };
 
-export default AddPost;
+export default UpdatePost;
