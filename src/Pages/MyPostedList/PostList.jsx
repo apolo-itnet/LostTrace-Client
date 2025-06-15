@@ -1,12 +1,12 @@
 import React, { use } from "react";
 import { Eye, MapPin, BookA, ListChecks, DollarSign, Pen } from "lucide-react";
 import { Link } from "react-router";
-// import EmptyPostAnimation from "../../Shared/Animation/EmptyPostAnimation";
+import EmptyPostAnimation from "../../Shared/Animation/EmptyPostAnimation";
 
 const PostList = ({ myPostPromise }) => {
   const myPostData = use(myPostPromise);
 
-  // if (!posts.length) return <EmptyPostAnimation />;
+  if (!myPostData.length > 0) return <EmptyPostAnimation />;
 
   return (
     <div className="res-padding space-y-8 py-10">
@@ -50,10 +50,10 @@ const PostList = ({ myPostPromise }) => {
             <div className="flex items-center justify-center cursor-pointer">
               <Link
                 to={`/posts/${post._id}`}
-                className="btn bg-teal-800 hover:bg-amber-400 transition-colors ease-out duration-300 !rounded-lg w-8 h-8 p-5 flex items-center justify-center  "
+                className="btn border-none shadow-none bg-teal-800 hover:bg-amber-400 transition-colors ease-out duration-300 !rounded-lg w-8 h-8 p-5 flex items-center justify-center  "
               >
                 <button>
-                  <Eye className=" text-base-100 cursor-pointer" size={18} />
+                  <Eye className="cursor-pointer text-white" size={18} />
                 </button>
               </Link>
             </div>
@@ -61,10 +61,10 @@ const PostList = ({ myPostPromise }) => {
             <div className="flex items-center justify-center cursor-pointer">
               <Link
                 to={`/update-post/${post._id}`}
-                className="btn bg-amber-400 hover:bg-teal-800 transition-colors ease-out duration-300 !rounded-lg w-8 h-8 p-5 flex items-center justify-center  "
+                className="btn border-none shadow-none bg-amber-400 hover:bg-teal-800 transition-colors ease-out duration-300 !rounded-lg w-8 h-8 p-5 flex items-center justify-center  "
               >
                 <button>
-                  <Pen className=" text-base-100 cursor-pointer" size={18} />
+                  <Pen className="cursor-pointer text-white" size={18} />
                 </button>
               </Link>
             </div>

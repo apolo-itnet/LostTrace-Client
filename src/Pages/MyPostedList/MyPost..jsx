@@ -11,30 +11,30 @@ const MyPost = () => {
 
   return (
     <div>
-      <section className="w-full league">
-        <div>
+      <section className="w-full league  text-white">
+        <div className="sticky top-19.5 bottom-5 z-10">
           {/* Tabs */}
-          <div className="py-8 bg-teal-800 text-base-100">
+          <div className="py-8 bg-teal-800">
             <div className="res-padding">
-              <h1 className="text-6xl font-semibold bebas tracking-wider py-4">
+              <h1 className="text-6xl font-semibold bebas tracking-wider py-4 ">
                 {activeTab === "active" ? "Post List" : "Recovery List"}
               </h1>
             </div>
           </div>
 
           {/* Toggle Buttons */}
-          <div className="flex justify-start items-center space-x-2 res-padding">
+          <div className="inline-flex justify-start items-center space-x-2 res-padding bg-teal-800 rounded-br-full pb-3 border-t border-base-300 ">
             <a
-              className={`flex items-center flex-shrink-0 px-5 py-3 border-b text-lg font-medium cursor-pointer ${
-                activeTab === "active" ? "border-b-2 border-amber-400" : ""
+              className={`flex items-center flex-shrink-0 px-5 py-3 border-b-4 text-lg font-medium cursor-pointer ${
+                activeTab === "active" ? "border-b-4 border-amber-400" : ""
               }`}
               onClick={() => setActiveTab("active")}
             >
               <ListCheck size={22} /> Active
             </a>
             <a
-              className={`flex items-center flex-shrink-0 px-5 py-3 border-b text-lg font-medium cursor-pointer ${
-                activeTab === "recovered" ? "border-b-2 border-amber-400" : ""
+              className={`flex items-center flex-shrink-0 px-5 py-3 border-b-4 text-lg font-medium cursor-pointer  ${
+                activeTab === "recovered" ? "border-b-4 border-amber-400" : ""
               }`}
               onClick={() => setActiveTab("recovered")}
             >

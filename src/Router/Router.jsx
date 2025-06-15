@@ -64,14 +64,11 @@ const Router = createBrowserRouter([
       },
       {
         path: "/update-post/:id",
-        loader: ({ params }) =>
-          fetch(`http://localhost:5000/posts/${params.id}`),
         element: (
           <PrivateRoutes>
            <UpdatePost/>
           </PrivateRoutes>
         ),
-        hydrateFallbackElement: <LoaderFull />,
       },
     ],
   },

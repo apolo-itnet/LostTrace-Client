@@ -62,7 +62,7 @@ const Navbar = ({ toggleTheme, theme }) => {
     <div>
       {isLoading && <LoaderFull/>}
       <Toaster reverseOrder={false} />
-      <div className="flex justify-center items-center py-1 bg-base-100 border-b border-gray-100  res-padding manrope">
+      <div className="flex justify-center items-center py-2 bg-base-100 border-b border-gray-100  res-padding manrope">
         <motion.div
           variants={slideDown(0.2)}
           initial="initial"

@@ -9,7 +9,7 @@ const LatestPost = ({ postPromise }) => {
 
   useEffect(() => {
     Aos.init({
-      duration: 1000,
+      duration: 500,
       once: false,
     });
   }, []);
