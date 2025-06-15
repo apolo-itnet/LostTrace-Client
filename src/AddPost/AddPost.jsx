@@ -12,7 +12,6 @@ import {
   IdCardLanyard,
   ImagePlus,
   ListChecks,
-  LocateIcon,
   Mail,
   MapPin,
   MapPinned,
@@ -24,7 +23,7 @@ import SecondaryBtn from "../Shared/Button/SecondaryBtn";
 import useAuth from "../Hooks/useAuth";
 import axios from "axios";
 import Button from "../Shared/Button/Button";
-import { toastSuccess } from "../Utility/notification";
+import { toastSuccess, toastWarning } from "../Utility/notification";
 import { useNavigate } from "react-router";
 import LoaderFull from "../Shared/Laoder/LoaderFull";
 
@@ -32,6 +31,7 @@ const AddPost = () => {
   const [step, setStep] = useState(0);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [errorFieldBorder, setErrorFieldBorder] = useState({});
   const [formData, setFormData] = useState({
     itemTitle: "",
     postType: "",
@@ -56,6 +56,7 @@ const AddPost = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    setErrorFieldBorder((prev) => ({ ...prev, [name]: false }));
   };
 
   //GET USER FROM FIREBASE AUTH
@@ -84,27 +85,55 @@ const AddPost = () => {
     }
   }, [user, userDataMDB]);
 
-  //SEND DATA TO DATABASE
+  // FROM DATA SUBMISSION
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
       await axios.post("http://localhost:5000/posts", formData);
+      setTimeout(() => {
+        setIsLoading(false);
+        toastSuccess("Post added successfully!");
+        navigate("/my-posted-list");
+        e.target.reset();
+      }, 2000);
     } catch (err) {
-      console.log(err);
-    }
-
-    setTimeout(() => {
+      console.error(err);
+      toastError("Failed to submit post.");
       setIsLoading(false);
-      toastSuccess("Post added successfully!");
-      // navigate("/");
-      // navigate("/my-posts");
-    }, 2000);
-    form.reset();
+    }
   };
 
-  const next = () => setStep((prev) => Math.min(prev + 1, 3));
+  // ✅ STEP-WISE VALIDATION
+  const handleNext = () => {
+    const requiredFieldsPerStep = {
+      0: ["itemTitle", "postType", "category", "description"],
+      1: ["date", "time", "location", "district"],
+      2: ["photo"], 
+      3: [],
+    };
+
+    const currentRequired = requiredFieldsPerStep[step];
+    const newErrors = {};
+
+    const missingField = currentRequired.find((field) => {
+      const isEmpty = !formData[field]?.trim();
+      if (isEmpty) newErrors[field] = true;
+      return isEmpty;
+    });
+
+    if (missingField) {
+      setErrorFieldBorder(newErrors);
+      toastWarning(`Please fill the required field: ${missingField}`);
+      return;
+    }
+
+    
+    setErrorFieldBorder({});
+    if (step < 3) setStep(step + 1);
+  };
+
   const prev = () => setStep((prev) => Math.max(prev - 1, 0));
 
   return (
@@ -155,7 +184,9 @@ const AddPost = () => {
                       name="itemTitle"
                       value={formData.itemTitle}
                       onChange={handleChange}
-                      required
+                      className={`input input-bordered w-full ${
+                        errorFieldBorder.itemTitle ? "border-red-500" : ""
+                      }`}
                       icon={BookA}
                     />
 
@@ -171,8 +202,9 @@ const AddPost = () => {
                         { label: "Found", value: "found" },
                       ]}
                       icon={ListChecks}
-                      required
-                      className="w-full flex"
+                      className={`input input-bordered w-full ${
+                        errorFieldBorder.postType ? "border-red-500" : ""
+                      }`}
                     />
                   </div>
 
@@ -184,7 +216,9 @@ const AddPost = () => {
                       onChange={handleChange}
                       type="select"
                       select={"Select Category"}
-                      required
+                      className={`input input-bordered w-full ${
+                        errorFieldBorder.category ? "border-red-500" : ""
+                      }`}
                       icon={ListChecks}
                       options={[
                         { label: "Documents", value: "documents" },
@@ -231,7 +265,9 @@ const AddPost = () => {
                       value={formData.description}
                       onChange={handleChange}
                       type="textarea"
-                      required
+                      className={`input input-bordered w-full ${
+                        errorFieldBorder.description ? "border-red-500" : ""
+                      }`}
                       placeholder="Enter description"
                       icon={FaInfoCircle}
                     />
@@ -260,7 +296,9 @@ const AddPost = () => {
                       name="date"
                       value={formData.date}
                       onChange={handleChange}
-                      required
+                      className={`input input-bordered w-full ${
+                        errorFieldBorder.date ? "border-red-500" : ""
+                      }`}
                       icon={Calendar}
                     />
                     <CustomInput
@@ -270,7 +308,9 @@ const AddPost = () => {
                       name="time"
                       value={formData.time}
                       onChange={handleChange}
-                      required
+                      className={`input input-bordered w-full ${
+                        errorFieldBorder.time ? "border-red-500" : ""
+                      }`}
                       icon={Clock}
                     />
                   </div>
@@ -283,7 +323,9 @@ const AddPost = () => {
                       name="location"
                       value={formData.location}
                       onChange={handleChange}
-                      required
+                      className={`input input-bordered w-full ${
+                        errorFieldBorder.location ? "border-red-500" : ""
+                      }`}
                       icon={MapPin}
                     />
                     <CustomInput
@@ -293,7 +335,9 @@ const AddPost = () => {
                       name="district"
                       value={formData.district}
                       onChange={handleChange}
-                      required
+                      className={`input input-bordered w-full ${
+                        errorFieldBorder.district ? "border-red-500" : ""
+                      }`}
                       icon={MapPinned}
                     />
                   </div>
@@ -342,6 +386,9 @@ const AddPost = () => {
                     name="photo"
                     value={formData.photo}
                     onChange={handleChange}
+                    className={`input input-bordered w-full ${
+                      errorFieldBorder.photo ? "border-red-500" : ""
+                    }`}
                     icon={ImagePlus}
                   />
                   <CustomInput
@@ -454,7 +501,7 @@ const AddPost = () => {
                 type="button"
                 label="Next"
                 img={<FiArrowRight />}
-                onClick={next}
+                onClick={handleNext}
                 className="border-teal-800"
               />
             ) : (

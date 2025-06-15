@@ -1,6 +1,13 @@
 import React from "react";
 
-const Button = ({ img, label, onClick, type = "button", disabled, className = "" }) => {
+const Button = ({
+  img,
+  label,
+  onClick,
+  type = "button",
+  disabled,
+  className = "",
+}) => {
   return (
     <div>
       <button

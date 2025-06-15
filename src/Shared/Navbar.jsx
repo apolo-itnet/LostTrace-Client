@@ -67,7 +67,7 @@ const Navbar = ({ toggleTheme, theme }) => {
           variants={slideDown(0.2)}
           initial="initial"
           animate="animate"
-          className="navbar "
+          className="navbar p-0 "
         >
           <div className="navbar-start">
             {/* Mobile Menu */}
@@ -185,7 +185,7 @@ const Navbar = ({ toggleTheme, theme }) => {
           </div>
         </motion.div>
 
-        <div>
+        <div className="pl-2">
           <button onClick={toggleTheme} className="btn btn-circle  text-xl">
             {theme === "light" ? <FaSun /> : <FaMoon />}
           </button>

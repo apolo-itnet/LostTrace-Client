@@ -8,7 +8,7 @@ export default function CustomInput({
   name,
   value,
   onChange,
-  required = true,
+  required,
   options = [],
   select = "Select an option",
   rows = 3,
