@@ -2,9 +2,11 @@ import React from "react";
 import { Link } from "react-router";
 import SecondaryBtn from "./Button/SecondaryBtn";
 import useAuth from "../Hooks/useAuth";
+import Button from "./Button/Button";
+import { Eye } from "lucide-react";
 
 const PostCard = ({ post, ...props }) => {
-  const {user} = useAuth();
+  const { user } = useAuth();
   const {
     _id,
     itemTitle,
@@ -23,10 +25,9 @@ const PostCard = ({ post, ...props }) => {
     rewards,
   } = post;
 
-
   return (
     <div {...props}>
-      <div className="rounded-4xl border border-base-300 shadow-none bg-base-100  hover:shadow-xs hover:-translate-y-1 transition-all duration-500 ease-in-out h-full manrope">
+      <div className="rounded-4xl  shadow-none bg-base-100  hover:shadow-xs hover:-translate-y-1 transition-all duration-500 ease-in-out h-full manrope ">
         <div className="flex flex-col min-h-full">
           {/* Header */}
           <div className="inline-block flex-col items-center">
@@ -38,7 +39,7 @@ const PostCard = ({ post, ...props }) => {
               />
             </div>
             <p
-              className={`font-bold tracking-widest uppercase p-2 text-white text-center text-lg ${
+              className={`league font-bold tracking-widest uppercase p-2 text-white flex items-center justify-center text-lg ${
                 postType === "lost" ? "bg-amber-400" : "bg-teal-800"
               }`}
             >
@@ -47,28 +48,44 @@ const PostCard = ({ post, ...props }) => {
           </div>
 
           {/*  Details */}
-          <div className="flex-grow space-y-2 p-3 flex flex-col items-start text-sm ">
-            <h2 className="text-xl font-bold line-clamp-1">{itemTitle}</h2>
+          <div
+            className={`border rounded-b-4xl ${
+              postType === "lost" ? "border-amber-400" : "border-teal-800"
+            }`}
+          >
+            <div className="flex-grow space-y-2 p-3 flex flex-col items-start text-sm ">
+              <h2 className="text-xl font-bold line-clamp-1">{itemTitle}</h2>
 
-            {/* Description */}
-            <p className="text-left line-clamp-1 pr-2">{description}</p>
+              {/* Description */}
+              <p className="text-left line-clamp-1 pr-2">{description}</p>
 
-            {/* Rewards */}
-            <div className="text-left flex gap-2 items-center mb-2">
-              <p className="font-medium ">Rewards:</p>
-              <p className="text-blue-600 font-semibold">{rewards}</p>
-              <p className="text-sm text-gray-500">/- bdt</p>
+              {/* Rewards */}
+              <div className="text-left flex gap-2 items-center mb-2">
+                <p className="font-medium ">Rewards:</p>
+                <p className="text-blue-600 font-semibold">{rewards}</p>
+                <p className="text-sm text-gray-500">/- bdt</p>
+              </div>
+              <div>
+                <p></p>
+              </div>
             </div>
-            <div>
-              <p></p>
-            </div>
-          </div>
 
-          {/* Button */}
-          <div className="flex w-full justify-center items-center pb-4">
-            <Link to={`/posts/${_id}`}>
-              <SecondaryBtn label={"View Details"}></SecondaryBtn>
-            </Link>
+            {/* Button */}
+            <div className="flex w-full h-full justify-center items-center pb-4">
+              {postType === "lost" ? (
+                <Link to={`/posts/${_id}`}>
+                  <SecondaryBtn label="View Details" />
+                </Link>
+              ) : (
+                <Link to={`/posts/${_id}`}>
+                  <Button
+                    label="View Details"
+                    // img={<Eye size={18} />}
+                    className=""
+                  />
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       </div>

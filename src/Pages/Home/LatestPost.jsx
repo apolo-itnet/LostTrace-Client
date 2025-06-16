@@ -17,7 +17,16 @@ const LatestPost = ({ postPromise }) => {
   return (
     <div>
       <div className="text-center my-10">
-        <h2 className="text-2xl font-bold mb-6 text-center">Latest Posts</h2>
+
+        {/* Heading */}
+        <div className="py-4 bg-teal-800 text-base-100 w-full">
+          <div className="res-padding">
+            <h1 className="text-6xl text-white font-semibold bebas tracking-wide py-4">
+              Latest Post
+            </h1>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 res-padding">
           {posts.map((post, index) => (
             <PostCard
@@ -28,7 +37,8 @@ const LatestPost = ({ postPromise }) => {
             ></PostCard>
           ))}
         </div>
-        <div className="flex justify-center mt-6">
+
+        <div className="flex justify-center mt-2">
           <Link to="/all-post">
             <Button label="View All Posts" />
           </Link>
