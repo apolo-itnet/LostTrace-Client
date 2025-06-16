@@ -4,7 +4,7 @@ import { Key, LampDesk, Mail } from "lucide-react";
 import SocialLogin from "../../Shared/SocialLogin";
 import Button from "../../Shared/Button/Button";
 import { AuthContext } from "../../Contexts/AuthContexts";
-import { useLocation, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { toastError, toastSuccess } from "../../Utility/notification";
 import { Toaster } from "react-hot-toast";
 import LoaderFull from "../../Shared/Laoder/LoaderFull";
@@ -108,13 +108,31 @@ const Signin = () => {
                       <p className="text-red-500">{passwordError}</p>
                     )}
                   </div>
-                  <div>
+                  <div className="flex justify-between pb-4">
                     <a className="link link-hover text-teal-800 font-semibold">
                       Forgot password?
                     </a>
+                    <div>
+                      <span className="text-xs font-medium underline ">
+                        Don't have an account?
+                      </span>
+                      <span>
+                        <Link
+                          to={"/signup"}
+                          className="text-teal-800 text-sm font-semibold pl-1 uppercase"
+                        >
+                          {" "}
+                          Sign up{" "}
+                        </Link>
+                      </span>
+                    </div>
                   </div>
                   <div className="w-full flex flex-col">
-                    <Button label={"Sign in"} type="submit" className="w-full"></Button>
+                    <Button
+                      label={"Sign in"}
+                      type="submit"
+                      className="w-full"
+                    ></Button>
                   </div>
                 </fieldset>
               </form>

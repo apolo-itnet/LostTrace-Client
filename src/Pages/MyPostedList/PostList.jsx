@@ -1,16 +1,58 @@
-import React, { use } from "react";
-import { Eye, MapPin, BookA, ListChecks, DollarSign, Pen } from "lucide-react";
+import React, { use, useEffect, useState } from "react";
+import { Eye, MapPin, ListChecks, DollarSign, Pen, Trash2 } from "lucide-react";
 import { Link } from "react-router";
 import EmptyPostAnimation from "../../Shared/Animation/EmptyPostAnimation";
+import { toastError, toastSuccess } from "../../Utility/notification";
+import ConfirmModal from "../../Shared/ConfirmModal";
 
 const PostList = ({ myPostPromise }) => {
   const myPostData = use(myPostPromise);
+  const [posts, setPosts] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(null);
 
-  if (!myPostData.length > 0) return <EmptyPostAnimation />;
+  useEffect(() => {
+    if (myPostData) {
+      setPosts(myPostData);
+    }
+  }, [myPostPromise]);
+
+  //HANDLE OPEN MODAL
+  const handleOpenModal = (postId) => {
+    setSelectedPost(postId);
+    setShowModal(true);
+  };
+
+  //HANDLE DELETE POST
+  const handleDeletePost = async () => {
+    setIsLoading(true);
+
+    try {
+      const res = await fetch(`http://localhost:5000/posts/${selectedPost}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+
+      setTimeout(() => {
+        setPosts((prevPosts) =>
+          prevPosts.filter((post) => post._id !== selectedPost)
+        );
+        toastSuccess("Post deleted successfully!");
+        setShowModal(false);
+        setIsLoading(false);
+      }, 2000);
+    } catch (error) {
+      toastError("Failed to delete post.");
+      setIsLoading(false);
+    }
+  };
+
+  if (!posts.length > 0) return <EmptyPostAnimation />;
 
   return (
     <div className="res-padding space-y-8 py-10">
-      {myPostData.map((post) => (
+      {posts.map((post) => (
         <div
           key={post._id}
           className="max-w-5xl mx-auto flex justify-between gap-6 p-6 border border-gray-200 hover:border-teal-400 rounded-xl hover:-translate-y-2 transition duration-500 ease-in-out group bg-white shadow-sm"
@@ -68,9 +110,26 @@ const PostList = ({ myPostPromise }) => {
                 </button>
               </Link>
             </div>
+
+            <div>
+              <button
+                onClick={() => handleOpenModal(post._id)}
+                className="btn border-none shadow-none bg-red-500 hover:bg-teal-800 transition-colors ease-out duration-300 !rounded-lg w-10 h-10 p-1 flex items-center justify-center "
+              >
+                <Trash2 className=" text-white" size={18} />
+              </button>
+            </div>
           </div>
         </div>
       ))}
+      <div>
+        <ConfirmModal
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+          onConfirm={handleDeletePost}
+          isLoading={isLoading}
+        />
+      </div>
     </div>
   );
 };

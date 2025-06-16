@@ -149,6 +149,9 @@ const Signup = () => {
             <div className="flex-1 p-8 w-full border border-base-300 shadow-xs rounded-2xl">
               <form onSubmit={handleRegister} className="form-control">
                 <fieldset className="fieldset mx-auto items-center space-y-2">
+                  <h1 className="text-2xl font-bold text-center">
+                    Sign up Now!
+                  </h1>
                   {/* Name Field */}
                   <div>
                     <CustomInput
