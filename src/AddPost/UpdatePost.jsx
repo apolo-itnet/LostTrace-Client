@@ -26,7 +26,6 @@ import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import {
   toastError,
   toastSuccess,
-  toastWarning,
 } from "../Utility/notification";
 import { getPostById } from "../API/GetAllPosts";
 import LoaderFull from "../Shared/Laoder/LoaderFull";

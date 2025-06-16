@@ -11,6 +11,7 @@ import LoaderFull from "../Shared/Laoder/LoaderFull";
 import MyPost from "../Pages/MyPostedList/MyPost.";
 import AllPosts from "../Pages/AllPosts/AllPosts";
 import UpdatePost from "../AddPost/UpdatePost";
+import FeedbackForm from "../Pages/Testimonial/FeedbackForm";
 
 const Router = createBrowserRouter([
   {
@@ -66,7 +67,15 @@ const Router = createBrowserRouter([
         path: "/update-post/:id",
         element: (
           <PrivateRoutes>
-           <UpdatePost/>
+            <UpdatePost />
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "/feedback",
+        element: (
+          <PrivateRoutes>
+            <FeedbackForm />
           </PrivateRoutes>
         ),
       },
