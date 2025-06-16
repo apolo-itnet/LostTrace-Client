@@ -4,6 +4,7 @@ import LatestPost from "./LatestPost";
 import Aos from "aos";
 import "aos/dist/aos.css";
 import Testimonial from "../Testimonial/Testimonial";
+import HowToWork from "../HowToWork/HowToWork";
 
 const postPromise = fetch("http://localhost:5000/posts/latest").then((res) =>
   res.json()
@@ -27,6 +28,9 @@ const Home = () => {
       </section>
       <section>
         <Testimonial />
+      </section>
+      <section>
+        <HowToWork/>
       </section>
     </div>
   );
