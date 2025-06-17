@@ -4,7 +4,7 @@ import { FaHeart } from "react-icons/fa";
 
 const Testimonial = () => {
   return (
-    <div className="res-padding w-full h-full mx-auto inline-flex justify-center items-center py-20 ">
+    <div className="res-padding w-full h-full mx-auto inline-flex justify-center items-center pt-30 ">
       <div className="flex justify-between items-start gap-8">
 
         <div className="w-[30%] h-full">

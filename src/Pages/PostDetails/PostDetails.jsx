@@ -28,7 +28,7 @@ const PostDetails = () => {
   const postType =
     userPostData.postType === "lost" ? "Found This!" : "This is Mine!";
 
-  // DISBALED THE BUTTON POSTED USER CAN'T CLICK THE BUTTON
+  // DISABLED THE BUTTON POSTED USER CAN'T CLICK THE BUTTON
   const isPostedByUser = user?.email === userPostData?.email;
 
   //IF POST IS RECOVERED THE BUTTON IS DISABLED

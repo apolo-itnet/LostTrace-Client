@@ -27,10 +27,10 @@ const Home = () => {
         <LatestPost postPromise={postPromise} />
       </section>
       <section>
-        <Testimonial />
+        <HowToWork />
       </section>
       <section>
-        <HowToWork/>
+        <Testimonial />
       </section>
     </div>
   );

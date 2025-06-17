@@ -140,7 +140,7 @@ const AddPost = () => {
       {isLoading && <LoaderFull />}
 
       {/* Heading */}
-      <div className="py-8 bg-teal-800 text-base-100 sticky top-18.5 z-10 w-full">
+      <div className="py-8 bg-teal-800 text-base-100 sticky top-20.5 z-10 w-full">
         <div className="res-padding">
           <h1 className="text-6xl font-semibold bebas tracking-wide py-4">
             Add Post

@@ -32,14 +32,14 @@ const LatestPost = ({ postPromise }) => {
             <PostCard
               key={post._id}
               post={post}
-              data-aos="fade-up"
+              data-aos="fade-in"
               data-aos-delay={index * 150}
             ></PostCard>
           ))}
         </div>
 
         <div className="flex justify-center mt-2">
-          <Link to="/all-post">
+          <Link to="/all-posts">
             <Button label="View All Posts" />
           </Link>
         </div>

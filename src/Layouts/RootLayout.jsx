@@ -1,13 +1,30 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../Shared/Navbar";
-import { Outlet, useNavigation } from "react-router";
+import { Outlet, useLocation, useNavigation } from "react-router";
 import Footer from "../Shared/Footer";
 import "aos/dist/aos.css";
 import Aos from "aos";
 import LoaderFull from "../Shared/Laoder/LoaderFull";
+import titleMap from "../Hooks/titleMap";
+import { match } from "path-to-regexp";
 
 const RootLayout = () => {
   const { state } = useNavigation();
+  const location = useLocation();
+
+  useEffect(() => {
+    const currentPath = location.pathname;
+    let matchedTitle = "Lost Trace";
+
+    for (const route of titleMap) {
+      const matched = match(route.path, { decode: decodeURIComponent });
+      if (matched(currentPath)) {
+        matchedTitle = route.title;
+        break;
+      }
+    }
+    document.title = `${matchedTitle} | Lost Trace`;
+  }, [location]);
 
   const [theme, setTheme] = useState("light");
 

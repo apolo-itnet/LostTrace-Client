@@ -52,7 +52,7 @@ const PostList = ({ myPostPromise }) => {
 
   return (
     <div className="res-padding space-y-8 py-10">
-      {posts.map((post) => (
+      {posts.map((post, index) => (
         <div
           key={post._id}
           className="max-w-5xl mx-auto flex justify-between gap-6 p-6 border border-gray-200 hover:border-teal-400 rounded-xl hover:-translate-y-2 transition duration-500 ease-in-out group bg-white shadow-sm"
@@ -91,7 +91,7 @@ const PostList = ({ myPostPromise }) => {
           <div className="flex gap-1 items-center">
             <div className="flex items-center justify-center cursor-pointer">
               <Link
-                to={`/posts/${post._id}`}
+                to={`/post-details/${post._id}`}
                 className="btn border-none shadow-none bg-teal-800 hover:bg-amber-400 transition-colors ease-out duration-300 !rounded-lg w-8 h-8 p-5 flex items-center justify-center  "
               >
                 <button>

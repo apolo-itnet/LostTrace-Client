@@ -54,7 +54,7 @@ const FeedbackForm = () => {
     <div>
       {/* Header */}
       {isLoading && <LoaderFull />}
-      <div className="py-4 bg-teal-800 text-base-100 sticky top-18.5 z-10 w-full">
+      <div className="py-4 bg-teal-800 text-base-100 sticky top-20.5 z-10 w-full">
         <div className="res-padding">
           <h1 className="text-6xl font-semibold bebas tracking-wider py-4">
             FEEDBACK

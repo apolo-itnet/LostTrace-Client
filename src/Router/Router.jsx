@@ -12,11 +12,13 @@ import MyPost from "../Pages/MyPostedList/MyPost.";
 import AllPosts from "../Pages/AllPosts/AllPosts";
 import UpdatePost from "../AddPost/UpdatePost";
 import FeedbackForm from "../Pages/Testimonial/FeedbackForm";
+import ErrorPage from "../Shared/ErrorPage";
 
 const Router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
+    errorElement: <ErrorPage/>,
     children: [
       {
         index: true,
@@ -39,13 +41,13 @@ const Router = createBrowserRouter([
         ),
       },
       {
-        path: "/all-post",
+        path: "/all-posts",
         loader: () => fetch(`http://localhost:5000/posts`),
         element: <AllPosts />,
         hydrateFallbackElement: <LoaderFull />,
       },
       {
-        path: "/posts/:id",
+        path: "/post-details/:id",
         loader: ({ params }) =>
           fetch(`http://localhost:5000/posts/${params.id}`),
         element: (

@@ -12,7 +12,7 @@ const MyPost = () => {
   return (
     <div>
       <section className="w-full league  text-white">
-        <div className="sticky top-19.5 bottom-5 z-10">
+        <div className="sticky top-20.5 bottom-5 z-10">
           {/* Tabs */}
           <div className="py-8 bg-teal-800">
             <div className="res-padding">

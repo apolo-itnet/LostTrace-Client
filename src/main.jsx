@@ -8,7 +8,8 @@ import Aos from "aos";
 import "aos/dist/aos.css";
 
 Aos.init({
-  duration: 500,
+  duration: 800,
+  easing: "ease-in-out",
   once: false,
 });
 

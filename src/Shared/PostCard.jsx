@@ -73,11 +73,11 @@ const PostCard = ({ post, ...props }) => {
             {/* Button */}
             <div className="flex w-full h-full justify-center items-center pb-4">
               {postType === "lost" ? (
-                <Link to={`/posts/${_id}`}>
+                <Link to={`/post-details/${_id}`}>
                   <SecondaryBtn label="View Details" />
                 </Link>
               ) : (
-                <Link to={`/posts/${_id}`}>
+                <Link to={`/post-details/${_id}`}>
                   <Button
                     label="View Details"
                     // img={<Eye size={18} />}

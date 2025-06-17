@@ -49,7 +49,7 @@ const Navbar = ({ toggleTheme, theme }) => {
 
   const navLinks = [
     { label: "Home", href: "/", icon: <FaHome /> },
-    { label: "Browse Listings", href: "/all-post", icon: <FaSearch /> },
+    { label: "Browse Posts", href: "/all-posts", icon: <FaSearch /> },
   ];
 
   const privateLinks = [
@@ -67,7 +67,7 @@ const Navbar = ({ toggleTheme, theme }) => {
           variants={slideDown(0.2)}
           initial="initial"
           animate="animate"
-          className="navbar p-0 "
+          className="navbar "
         >
           <div className="navbar-start">
             {/* Mobile Menu */}
