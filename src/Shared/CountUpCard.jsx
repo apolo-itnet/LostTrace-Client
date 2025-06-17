@@ -35,7 +35,7 @@ const CountUpCard = () => {
   }, []);
 
   return (
-    <div ref={ref} className="flex gap-8">
+    <div ref={ref} className="flex flex-col md:flex-row gap-8">
       {status.map((item, index) => (
         <div
           key={index}

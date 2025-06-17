@@ -65,10 +65,10 @@ const FeedbackForm = () => {
       <div className="res-padding py-6">
         <form
           onSubmit={handleSubmit}
-          className="grid grid-cols-1 md:grid-cols-2 gap-4"
+          className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full "
         >
           {/* Left Image */}
-          <div className="w-md mx-auto">
+          <div className="md:w-md w-xs mx-auto">
             <img
               src="https://i.postimg.cc/59nVq2VV/Online-Review-pana.png"
               alt=""
@@ -78,7 +78,7 @@ const FeedbackForm = () => {
 
           {/* Right Form */}
           <div>
-            <h1 className="text-3xl font-black text-center tracking-normal normal-case text-teal-800 pb-8 w-md mx-auto">
+            <h1 className="text-3xl font-black text-center tracking-normal normal-case text-teal-800 pb-8 md:w-md mx-auto">
               Feel free to drop us your Feedback, to improve our service
             </h1>
             <AnimatePresence mode="wait">

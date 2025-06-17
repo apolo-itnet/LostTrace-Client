@@ -139,14 +139,14 @@ const Signup = () => {
     <div>
       {isLoading && <LoaderFull />}
       <Toaster reverseOrder={false} />
-      <div className="max-w-6xl mx-auto res-padding flex justify-center items-start">
+      <div className="lg:max-w-6xl mx-auto res-padding flex flex-col justify-center items-center lg:flex-row  lg:justify-start lg:items-start">
         <div
           data-aos="fade-right"
           data-aos-duration="1000"
           className="w-full mx-auto my-10"
         >
           <div className="flex flex-col items-center justify-center">
-            <div className="flex-1 p-8 w-full border border-base-300 shadow-xs rounded-2xl">
+            <div className="flex-1 p-8 w-full border border-base-300 shadow-xs rounded-2xl bg-base-300">
               <form onSubmit={handleRegister} className="form-control">
                 <fieldset className="fieldset mx-auto items-center space-y-2">
                   <h1 className="text-2xl font-bold text-center">
@@ -247,7 +247,7 @@ const Signup = () => {
         <div
           data-aos="fade-left"
           data-aos-duration="1000"
-          className="my-10 responsive-padding flex flex-col justify-between bg-transparent"
+          className="my-10 responsive-padding lg:flex flex-col justify-between bg-transparent hidden "
         >
           <div>
             <p className="text-4xl font-bold text-center py-2 ">

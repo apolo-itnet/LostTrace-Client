@@ -30,7 +30,7 @@ const FeedbackCard = () => {
   if (isLoading) return <p className="text-center">Loading...</p>;
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="md:max-w-4xl mx-auto">
       <Swiper
         modules={[Navigation, Pagination, Autoplay, EffectFade]}
         spaceBetween={40}
@@ -101,10 +101,10 @@ const FeedbackCard = () => {
           </SwiperSlide>
         ))}
 
-        <div className="slide-button-prev rounded-full absolute top-100 w-16 h-16  flex justify-center items-center bg-amber-400 text-teal-800 duration-300 ease-in-out transition-all z-50 cursor-pointer">
+        <div className="slide-button-prev rounded-full lg:absolute top-100 w-16 h-16  flex justify-center items-center bg-amber-400 text-teal-800 duration-300 ease-in-out transition-all z-50 cursor-pointer">
           <ArrowLeft />
         </div>
-        <div className="slide-button-next rounded-full absolute top-100 left-18 w-16 h-16  flex justify-center items-center bg-amber-400 text-teal-800  duration-300 ease-in-out transition-all z-50 cursor-pointer">
+        <div className="slide-button-next rounded-full lg:absolute top-100 left-18 w-16 h-16  flex justify-center items-center bg-amber-400 text-teal-800  duration-300 ease-in-out transition-all z-50 cursor-pointer">
           <ArrowRight />
         </div>
       </Swiper>

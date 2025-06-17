@@ -18,13 +18,13 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   const getToken = async () => {
-  const currentUser = auth.currentUser;
-  if (currentUser) {
-    return await getIdToken(currentUser, true);
-  } else {
-    return null;
-  }
-};
+    const currentUser = auth.currentUser;
+    if (currentUser) {
+      return await getIdToken(currentUser, true);
+    } else {
+      return null;
+    }
+  };
 
   const createUser = (email, password) => {
     setLoading(false);
@@ -49,12 +49,18 @@ const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
       setLoading(false);
-      console.log(currentUser);
+
+      if (currentUser) {
+        const token = await currentUser.getIdToken();
+        localStorage.setItem("access-token", token);
+      } else {
+        localStorage.removeItem("access-token");
+      }
     });
-    
+
     return () => unsubscribe();
   }, []);
 
@@ -65,7 +71,7 @@ const AuthProvider = ({ children }) => {
     signInWithGoogle,
     user,
     logOut,
-    getToken
+    getToken,
   };
 
   return <AuthContext value={authContextValue}>{children}</AuthContext>;

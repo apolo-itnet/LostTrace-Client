@@ -40,7 +40,7 @@ const Slider = () => {
         >
           {/* slide-1 */}
           <SwiperSlide>
-            <div className="flex flex-col lg:flex-row justify-between items-center lg:h-[calc(100vh-83px)] w-full mx-auto res-padding relative">
+            <div className="flex flex-col gap-6 lg:flex-row justify-between items-center h-[calc(100vh-81px)] w-full mx-auto relative res-padding">
               <AnimatePresence mode="wait">
                 {activeSlide === 0 && (
                   <>
@@ -51,10 +51,10 @@ const Slider = () => {
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.7 }}
-                      className="w-[56%] pl-8"
+                      className="w-sm md:w-2xl lg:w-[56%]   flex flex-col justify-center items-start gap-2 lg:gap-6 lg:pl-8  res-padding "
                     >
                       {user && (
-                        <div className="text-3xl bebas uppercase font-black text-amber-400 relative leading-10 pb-12">
+                        <div className="text-2xl lg:text-4xl bebas uppercase font-black text-amber-400 relative lg:leading-10 lg:pb-12 py-4">
                           <motion.p
                             variants={slideUp(0.2)}
                             initial="initial"
@@ -83,12 +83,13 @@ const Slider = () => {
                         initial="initial"
                         animate="animate"
                         exit="exit"
-                        className="text-4xl md:text-[9rem]  bebas uppercase  font-black text-amber-400 leading-24 relative"
+                        className="inline-flex gap-2 text-6xl md:text-8xl lg:text-[9rem] bebas uppercase font-black text-amber-400 lg:leading-12 relative"
                       >
                         <span className="text-teal-800 tracking-wider ">
                           LOST
                         </span>{" "}
-                        <span className="text-6xl absolute -bottom-2 left-58">
+                        <span className="px-2 block lg:hidden">&</span>
+                        <span className="hidden lg:flex text-6xl absolute -bottom-2 left-56">
                           &
                         </span>
                         <span className="tracking-widest">TRACE</span>
@@ -99,7 +100,7 @@ const Slider = () => {
                         initial="initial"
                         animate="animate"
                         exit="exit"
-                        className="text-4xl md:text-6xl bebas uppercase tracking-tight font-sans underline decoration-amber-400"
+                        className="text-4xl md:text-6xl bebas uppercase tracking-normal underline decoration-amber-400"
                       >
                         Lost & Found Solution
                       </motion.p>
@@ -109,7 +110,7 @@ const Slider = () => {
                         initial="initial"
                         animate="animate"
                         exit="exit"
-                        className="w-md text-md manrope tracking-wider py-4"
+                        className="lg:w-md lg:text-md text-sm manrope lg:tracking-wider tracking-wide"
                       >
                         Track, report, and recover lost items effortlessly with
                         our all-in-one platform.
@@ -121,14 +122,17 @@ const Slider = () => {
                         animate="animate"
                         exit="exit"
                       >
-                        <SecondaryBtn label={"View More"} />
+                        <SecondaryBtn
+                          label={"View More"}
+                          className="!px-4 lg:p-6 "
+                        />
                       </motion.div>
                     </motion.div>
 
                     {/* right side */}
                     <div
                       key="right-img"
-                      className="w-[44%] h-full mx-auto relative flex justify-end items-center"
+                      className="lg:w-[44%] md:w-md w-80 h-full mx-auto relative flex lg:justify-end justify-center items-center"
                     >
                       <motion.div
                         initial={{ opacity: 0, x: 100 }}
@@ -162,7 +166,7 @@ const Slider = () => {
 
           {/* slide-2 */}
           <SwiperSlide>
-            <div className="flex flex-col lg:flex-row justify-between items-center lg:h-[calc(100vh-83px)] w-full mx-auto res-padding relative">
+            <div className="flex flex-col lg:flex-row justify-between items-center h-[calc(100vh-83px)] w-full mx-auto res-padding relative">
               <AnimatePresence mode="wait">
                 {activeSlide === 1 && (
                   <>
@@ -173,7 +177,7 @@ const Slider = () => {
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.3 }}
-                      className="w-[56%] pl-8"
+                      className="w-sm md:w-2xl lg:w-[56%]   flex flex-col justify-center items-start gap-2 lg:gap-6 lg:pl-8  res-padding "
                     >
                       <motion.h1
                         variants={slideUp(1.1)}
@@ -221,7 +225,7 @@ const Slider = () => {
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.4 }}
-                      className="w-[44%] h-full mx-auto relative flex justify-end items-center"
+                      className="lg:w-[44%] md:w-md w-80 h-full mx-auto relative flex lg:justify-end justify-center items-center"
                     >
                       <motion.div
                         initial={{ opacity: 0, x: 100 }}
@@ -261,7 +265,7 @@ const Slider = () => {
 
           {/* slide-3 */}
           <SwiperSlide>
-            <div className="flex flex-col lg:flex-row justify-between items-center lg:h-[calc(100vh-83px)] w-full mx-auto res-padding relative">
+            <div className="flex flex-col lg:flex-row justify-between items-center h-[calc(100vh-83px)] w-full mx-auto res-padding relative">
               <AnimatePresence mode="wait">
                 {activeSlide === 2 && (
                   <>
@@ -272,7 +276,7 @@ const Slider = () => {
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.3 }}
-                      className="w-[56%] pl-8"
+                      className="w-sm md:w-2xl lg:w-[56%]   flex flex-col justify-center items-start gap-2 lg:gap-6 lg:pl-8  res-padding"
                     >
                       <motion.h1
                         variants={slideUp(1.1)}
@@ -321,7 +325,7 @@ const Slider = () => {
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.4 }}
-                      className="w-[44%] h-full mx-auto relative flex justify-end items-center"
+                      className="lg:w-[44%] md:w-md w-80 h-full mx-auto relative flex lg:justify-end justify-center items-center"
                     >
                       <motion.div
                         initial={{ opacity: 0, x: 100 }}
@@ -359,10 +363,10 @@ const Slider = () => {
             </div>
           </SwiperSlide>
 
-          <div className="slide-button-prev rounded-md  absolute top-80  w-10 h-10 flex justify-center items-center bg-amber-400 text-teal-800 group-hover:left-0 -left-96 duration-300 ease-in-out transition-all z-50 cursor-pointer">
+          <div className="slide-button-prev rounded-md relative lg:absolute top-80  w-10 h-10 flex justify-center items-center bg-amber-400 text-teal-800 group-hover:left-0 -left-96 duration-300 ease-in-out transition-all z-50 cursor-pointer">
             <ArrowLeft />
           </div>
-          <div className="slide-button-next rounded-md  absolute top-80  w-10 h-10 flex justify-center items-center bg-amber-400 text-teal-800 group-hover:right-0 -right-96 duration-300 ease-in-out transition-all z-50 cursor-pointer">
+          <div className="slide-button-next rounded-md relative lg:absolute top-80  w-10 h-10 flex justify-center items-center bg-amber-400 text-teal-800 group-hover:right-0 -right-96 duration-300 ease-in-out transition-all z-50 cursor-pointer">
             <ArrowRight />
           </div>
         </Swiper>

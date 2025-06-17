@@ -70,14 +70,14 @@ const Signin = () => {
     <div>
       {isLoading && <LoaderFull />}
       <Toaster reverseOrder={false} />
-      <div className="max-w-6xl mx-auto res-padding flex justify-start items-start">
+      <div className="lg:max-w-6xl mx-auto res-padding flex flex-col justify-center items-center lg:flex-row  lg:justify-start lg:items-start">
         <div
           data-aos="fade-in"
           data-aos-duration="1000"
-          className="bg-base-100 flex-1  my-10"
+          className="lg:flex-1 w-full mx-auto my-10"
         >
-          <div className="flex items-center justify-center gap-8 max-w-xl">
-            <div className="flex-1 p-8 w-full border border-base-300 shadow-xs rounded-2xl">
+          <div className="flex flex-col items-center justify-center">
+            <div className="flex-1 p-8 w-full border border-base-300 shadow-xs rounded-2xl bg-base-300">
               <form onSubmit={handleLogin} className="form-control">
                 <fieldset className="fieldset mx-auto items-center">
                   <h1 className="text-2xl font-bold text-center">
@@ -144,7 +144,7 @@ const Signin = () => {
         <div
           data-aos="fade-left"
           data-aos-duration="1000"
-          className="my-10 w-full h-full responsive-padding flex-1 flex-col justify-center gap-4 items-center"
+          className="my-10 w-full h-full responsive-padding flex-1 flex-col justify-center gap-4 items-center hidden lg:flex"
         >
           <div>
             <p className="text-4xl font-bold text-center py-2 ">Welcome Back</p>

@@ -102,7 +102,6 @@ const UpdatePost = () => {
         `http://localhost:5000/posts/${_id}`,
         postToUpdate
       );
-      console.log("Post updated successfully:", res.data);
 
       setTimeout(() => {
         setIsLoading(false);

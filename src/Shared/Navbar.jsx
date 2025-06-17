@@ -37,7 +37,6 @@ const Navbar = ({ toggleTheme, theme }) => {
       }, 1000);
       toastSuccess("Successfully signed out!");
       // navigate("/");
-
     } catch (error) {
       setIsLoading(false);
       console.error("Sign-out error:", error);
@@ -60,17 +59,17 @@ const Navbar = ({ toggleTheme, theme }) => {
 
   return (
     <div>
-      {isLoading && <LoaderFull/>}
+      {isLoading && <LoaderFull />}
       <Toaster reverseOrder={false} />
-      <div className="flex justify-center items-center py-2 bg-base-100 border-b border-gray-100  res-padding manrope">
+      <div className="flex justify-between items-center py-2 bg-base-100 border-b border-gray-100  res-padding manrope">
         <motion.div
           variants={slideDown(0.2)}
           initial="initial"
           animate="animate"
-          className="navbar "
+          className="navbar flex justify-between items-center w-full"
         >
-          <div className="navbar-start">
-            {/* Mobile Menu */}
+          {/* Mobile Menu */}
+          <div className="md:navbar-start lg:flex-1 ">
             <div className="dropdown">
               <label tabIndex={0} className="btn btn-ghost lg:hidden">
                 <svg
@@ -87,10 +86,19 @@ const Navbar = ({ toggleTheme, theme }) => {
                   />
                 </svg>
               </label>
+              {/* Logo */}
+
               <ul
                 tabIndex={0}
-                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-xs h-72"
               >
+                <Link to="/">
+                  <img
+                    src={"https://i.postimg.cc/0jyV0sJ7/Lost-Trace-Logo.png"}
+                    alt="Lost Trace Logo"
+                    className="w-22 flex justify-center items-center lg:hidden pb-4  "
+                  />
+                </Link>
                 {navLinks.map((link, index) => (
                   <li key={index}>
                     <Link to={link.href} className="flex items-center gap-2">
@@ -105,13 +113,13 @@ const Navbar = ({ toggleTheme, theme }) => {
               <img
                 src={"https://i.postimg.cc/0jyV0sJ7/Lost-Trace-Logo.png"}
                 alt="Lost Trace Logo"
-                className="w-22"
+                className="w-22 lg:flex hidden "
               />
             </Link>
           </div>
 
           {/* Desktop Menu */}
-          <div className="navbar-center hidden lg:flex">
+          <div className="navbar-center flex-1 hidden lg:flex justify-center items-center">
             <ul className="menu menu-horizontal px-1">
               {navLinks.map((link, index) => (
                 <li key={index} className="flex items-center gap-2">
@@ -124,7 +132,7 @@ const Navbar = ({ toggleTheme, theme }) => {
           </div>
 
           {/* Dropdown avatar menu*/}
-          <div className="navbar-end gap-6">
+          <div className="navbar-end flex-1 gap-6">
             {user ? (
               <div className="dropdown dropdown-end">
                 <label
@@ -175,10 +183,10 @@ const Navbar = ({ toggleTheme, theme }) => {
             ) : (
               <div className="flex gap-4">
                 <Link to="/signin">
-                  <SecondaryBtn label={<h1>Sign in</h1>}></SecondaryBtn>
+                  <SecondaryBtn label={"Sign In"}></SecondaryBtn>
                 </Link>
                 <Link to="/signup">
-                  <Button label={<h1>Sign UP</h1>}></Button>
+                  <Button label={"Sign Up"}></Button>
                 </Link>
               </div>
             )}
