@@ -55,7 +55,7 @@ JWT_SECRET=your_secret_key
 ### Frontend:
 - React.js
 - Tailwind CSS + DaisyUI
-- React Router DOM
+- React Router
 - AOS, Framer Motion
 - React Icons, SweetAlert2, React Toastify
 - Firebase Authentication
