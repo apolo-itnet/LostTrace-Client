@@ -183,7 +183,6 @@ This project was submitted as Assignment-11 in the MERN Stack Developer Program.
 ### 👨‍💻 Developer Info
 **Apolo Barua Apurbo**   <br> 
 💼 MERN Stack Web Developer  <br> 
-📧 **Email**: your.email@example.com  <br> 
-🌐 **Portfolio**: yourportfolio.com  <br> 
+📧 **Email**: apolo.itnet@gmail.com  <br> 
 📍 **Location**: Bangladesh  <br> 
 
