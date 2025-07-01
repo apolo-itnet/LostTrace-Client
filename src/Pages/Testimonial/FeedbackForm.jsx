@@ -33,7 +33,7 @@ const FeedbackForm = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/feedback",
+        "https://lost-trace.vercel.app/feedback",
         feedbackData
       );
       if (res.data.insertedId) {

@@ -27,34 +27,34 @@ const PostCard = ({ post, ...props }) => {
 
   return (
     <div {...props}>
-      <div className="rounded-4xl  shadow-none bg-base-100  hover:shadow-xs hover:-translate-y-1 transition-all duration-500 ease-in-out h-full manrope ">
+      <div className="rounded-2xl  shadow-none bg-base-100  hover:shadow-xs hover:-translate-y-1 transition-all duration-500 ease-in-out h-full manrope ">
         <div className="flex flex-col min-h-full">
           {/* Header */}
-          <div className="inline-block flex-col items-center">
-            <div className="w-full h-56">
+          <div className="inline-block flex-col items-center relative">
+            <div className="w-full h-50">
               <img
                 src={photo || "https://via.placeholder.com/48"}
                 alt="FlyChat"
-                className=" object-cover object-center w-full h-full rounded-tr-4xl rounded-tl-4xl "
+                className=" object-cover object-center w-full h-full rounded-tr-2xl rounded-tl-2xl "
               />
+              <p
+                className={`league font-bold uppercase text-white flex items-center justify-start pl-3 text-sm absolute -top-2 -right-2 size-20 rounded-full ${
+                  postType === "lost" ? "bg-amber-400" : "bg-teal-800"
+                }`}
+              >
+                {postType}
+              </p>
             </div>
-            <p
-              className={`league font-bold tracking-widest uppercase p-2 text-white flex items-center justify-center text-lg ${
-                postType === "lost" ? "bg-amber-400" : "bg-teal-800"
-              }`}
-            >
-              {postType}
-            </p>
           </div>
 
           {/*  Details */}
           <div
-            className={`border rounded-b-4xl ${
-              postType === "lost" ? "border-amber-400" : "border-teal-800"
+            className={`border-b border-x rounded-b-2xl ${
+              postType === "lost" ? "border-amber-400" : " border-teal-800"
             }`}
           >
-            <div className="flex-grow space-y-2 p-3 flex flex-col items-start text-sm ">
-              <h2 className="text-xl font-bold line-clamp-1">{itemTitle}</h2>
+            <div className="flex-grow space-y-2 p-3 flex flex-col items-start text-sm manrope ">
+              <h2 className="text-base uppercase font-semibold line-clamp-1">{itemTitle}</h2>
 
               {/* Description */}
               <p className="text-left line-clamp-1 pr-2">{description}</p>

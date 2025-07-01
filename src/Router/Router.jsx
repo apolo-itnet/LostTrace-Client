@@ -42,14 +42,14 @@ const Router = createBrowserRouter([
       },
       {
         path: "/all-posts",
-        loader: () => fetch(`http://localhost:5000/posts`),
+        loader: () => fetch(`https://lost-trace.vercel.app/posts`),
         element: <AllPosts />,
         hydrateFallbackElement: <LoaderFull />,
       },
       {
         path: "/post-details/:id",
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/posts/${params.id}`),
+          fetch(`https://lost-trace.vercel.app/posts/${params.id}`),
         element: (
           <PrivateRoutes>
             <PostDetails />

@@ -19,7 +19,7 @@ const RecoveryPost = ({ post }) => {
   useEffect(() => {
     if (user?.email) {
       axios
-        .get(`http://localhost:5000/users/${user.email}`)
+        .get(`https://lost-trace.vercel.app/users/${user.email}`)
         .then((res) => setUserDataMDB(res.data))
         .catch((err) => console.log("Failed to get MongoDB user data", err));
     }
@@ -41,7 +41,7 @@ const RecoveryPost = ({ post }) => {
     };
 
     try {
-      const res = await fetch("http://localhost:5000/recovery-post", {
+      const res = await fetch("https://lost-trace.vercel.app/recovery-post", {
         method: "POST",
         headers: {
           "content-type": "application/json",

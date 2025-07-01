@@ -9,7 +9,7 @@ const Button = ({
   className = "",
 }) => {
 
-  const baseClass = `btn text-sm font-medium uppercase px-6 py-6 bg-teal-800 text-white border-none shadow-none rounded-lg relative overflow-hidden group z-10`;
+  const baseClass = `btn text-sm league uppercase px-4 py-6 bg-teal-800 text-white border-none shadow-none rounded-lg relative overflow-hidden group z-10`;
 
   return (
     <div>

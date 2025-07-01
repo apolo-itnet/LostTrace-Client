@@ -100,7 +100,7 @@ const Signup = () => {
         }),
       };
 
-      const res = await fetch("http://localhost:5000/users", {
+      const res = await fetch("https://lost-trace.vercel.app/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

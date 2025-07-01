@@ -6,7 +6,7 @@ import "aos/dist/aos.css";
 import Testimonial from "../Testimonial/Testimonial";
 import HowToWork from "../HowToWork/HowToWork";
 
-const postPromise = fetch("http://localhost:5000/posts/latest").then((res) =>
+const postPromise = fetch("https://lost-trace.vercel.app/posts/latest").then((res) =>
   res.json()
 );
 

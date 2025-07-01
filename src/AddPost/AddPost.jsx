@@ -67,7 +67,7 @@ const AddPost = () => {
   useEffect(() => {
     if (user?.email) {
       axios
-        .get(`http://localhost:5000/users/${user.email}`)
+        .get(`https://lost-trace.vercel.app/users/${user.email}`)
         .then((res) => setUserDataMDB(res.data))
         .catch((err) => console.log("Failed to get data", err));
     }
@@ -91,7 +91,7 @@ const AddPost = () => {
     setIsLoading(true);
 
     try {
-      await axios.post("http://localhost:5000/posts", formData);
+      await axios.post("https://lost-trace.vercel.app/posts", formData);
       setTimeout(() => {
         setIsLoading(false);
         toastSuccess("Post added successfully!");
@@ -274,7 +274,7 @@ const AddPost = () => {
                       value={formData.description}
                       onChange={handleChange}
                       type="textarea"
-                      className={`input input-bordered w-full ${
+                      className={`input input-bordered w-full flex justify-center items-center ${
                         errorFieldBorder.description ? "border-red-500" : ""
                       }`}
                       placeholder="Enter description"
@@ -299,7 +299,7 @@ const AddPost = () => {
                 <div className="grid gap-1 manrope">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <CustomInput
-                      label="Date"
+                      label="Lost/Found Date"
                       placeholder="Enter date (yyyy-mm-dd)"
                       type="date"
                       name="date"
@@ -500,18 +500,19 @@ const AddPost = () => {
               <SecondaryBtn
                 type="button"
                 label="Back"
-                img={<FiArrowLeft />}
+                img={<FiArrowLeft size={16} />}
                 onClick={prev}
                 disabled={step === 0}
+                className="flex justify-center items-center"
               />
             )}
             {step < 3 ? (
               <SecondaryBtn
                 type="button"
                 label="Next"
-                img={<FiArrowRight />}
+                img={<FiArrowRight size={16} />}
                 onClick={handleNext}
-                className="border-teal-800"
+                className="flex justify-center items-center"
               />
             ) : (
               <Button label="Submit" type="submit" />

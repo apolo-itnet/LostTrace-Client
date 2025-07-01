@@ -29,7 +29,7 @@ const PostList = ({ myPostPromise }) => {
     setIsLoading(true);
 
     try {
-      const res = await fetch(`http://localhost:5000/posts/${selectedPost}`, {
+      const res = await fetch(`https://lost-trace.vercel.app/posts/${selectedPost}`, {
         method: "DELETE",
       });
       const data = await res.json();

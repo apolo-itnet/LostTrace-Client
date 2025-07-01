@@ -70,7 +70,7 @@ const UpdatePost = () => {
   useEffect(() => {
     if (user?.email) {
       axios
-        .get(`http://localhost:5000/users/${user.email}`)
+        .get(`https://lost-trace.vercel.app/users/${user.email}`)
         .then((res) => setUserDataMDB(res.data))
         .catch((err) => console.log("Failed to get data", err));
     }
@@ -99,7 +99,7 @@ const UpdatePost = () => {
         timeZone: "Asia/Dhaka",
       });
       const res = await axios.put(
-        `http://localhost:5000/posts/${_id}`,
+        `https://lost-trace.vercel.app/posts/${_id}`,
         postToUpdate
       );
 

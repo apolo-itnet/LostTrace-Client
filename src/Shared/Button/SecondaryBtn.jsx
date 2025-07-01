@@ -9,7 +9,7 @@ const SecondaryBtn = ({
   className = "",
 }) => {
 
-  const baseClass = `btn text-sm font-medium border-none shadow-none bg-transparent hover:bg-transparent relative cursor-pointer py-6 px-6 text-center flex justify-center items-center  uppercase rounded-lg transition-transform duration-300 ease-in-out group outline-offset-4 focus:outline focus:outline-2 focus:outline-transparent focus:outline-offset-4 overflow-hidden`;
+  const baseClass = `btn text-sm manrope  border-none shadow-none bg-transparent hover:bg-transparent relative cursor-pointer py-6 px-4 text-center flex justify-center items-center  uppercase rounded-lg transition-transform duration-300 ease-in-out group outline-offset-4 focus:outline focus:outline-2 focus:outline-transparent focus:outline-offset-4 overflow-hidden`;
 
   return (
     <button

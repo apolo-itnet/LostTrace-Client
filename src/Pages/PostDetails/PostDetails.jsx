@@ -14,7 +14,7 @@ const PostDetails = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       const res = await fetch(
-        `http://localhost:5000/users/${userPostData.email}`
+        `https://lost-trace.vercel.app/users/${userPostData.email}`
       );
       const data = await res.json();
       setUserData(data);
