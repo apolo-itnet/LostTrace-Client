@@ -31,14 +31,14 @@ const PostCard = ({ post, ...props }) => {
         <div className="flex flex-col min-h-full">
           {/* Header */}
           <div className="inline-block flex-col items-center relative">
-            <div className="w-full h-50">
+            <div className="w-full h-50 relative overflow-hidden">
               <img
                 src={photo || "https://via.placeholder.com/48"}
                 alt="FlyChat"
                 className=" object-cover object-center w-full h-full rounded-tr-2xl rounded-tl-2xl "
               />
               <p
-                className={`league font-bold uppercase text-white flex items-center justify-start pl-3 text-sm absolute -top-2 -right-2 size-20 rounded-full ${
+                className={`league font-medium uppercase text-white flex items-end justify-center text-sm absolute bottom-0 -right-12 size-20 rounded-lg rotate-90 tracking-widest ${
                   postType === "lost" ? "bg-amber-400" : "bg-teal-800"
                 }`}
               >
@@ -62,7 +62,9 @@ const PostCard = ({ post, ...props }) => {
               {/* Rewards */}
               <div className="text-left flex gap-2 items-center mb-2">
                 <p className="font-medium ">Rewards:</p>
-                <p className="text-blue-600 font-semibold">{rewards}</p>
+                {rewards.map((reward, index) => (
+                  <p key={index} className="text-sm text-gray-500"> {reward}</p>
+                ))}
                 <p className="text-sm text-gray-500">/- bdt</p>
               </div>
               <div>
