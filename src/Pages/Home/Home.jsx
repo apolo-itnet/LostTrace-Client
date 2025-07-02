@@ -21,7 +21,7 @@ const Home = () => {
 
   return (
     <div>
-      <section>
+      <section className="relative bg-slate-200">
         <Slider />
       </section>
       <section>

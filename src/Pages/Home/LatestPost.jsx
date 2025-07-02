@@ -16,7 +16,7 @@ const LatestPost = ({ postPromise }) => {
 
   return (
     <div>
-      <div className="text-center my-10">
+      <div className="text-center">
 
         {/* Heading */}
         <div className="py-4 bg-teal-800 text-base-100 w-full">

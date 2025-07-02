@@ -49,7 +49,7 @@ const RootLayout = () => {
 
   return (
     <div className="w-full flex flex-col min-h-screen">
-      <section className="sticky top-0 z-50 transition duration-300">
+      <section className="sticky top-0 z-50 transition duration-300 bg-slate-200">
         <Navbar toggleTheme={toggleTheme} theme={theme} />
       </section>
       <section className="flex-grow">
