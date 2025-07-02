@@ -5,7 +5,7 @@ LOST & TRACE is a full-stack web application that connects people who have lost 
 ---
 ## 🌐 Live Links
 🔗 **Live Website**: https://lost-trace.web.app  <br>
-🔗 **Client GitHub**: https://github.com/apolo-itnet/NestBuddy-Client.git <br>
+🔗 **Client GitHub**: https://github.com/apolo-itnet/LostTrace-Client <br>
 🔗 **Server GitHub**: https://github.com/Programming-Hero-Web-Course4/b11a11-server-side-apolo-itnet
 
 
