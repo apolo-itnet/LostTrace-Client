@@ -75,10 +75,10 @@ const FAQAccordion = () => {
         data-aos-duration="1000"
         className="text-center py-4"
       >
-        <h1 className="text-4xl font-bold text-teal-950">
+        <h1 className="text-4xl font-bold text-base-content">
           Frequently Asked Question (FAQ)
         </h1>
-        <p className="py-4 w-full md:w-lg mx-auto text-gray-600">
+        <p className="py-4 w-full md:w-lg mx-auto text-base-content">
           Find answers to common questions about our services. If you can't find
           what you're looking for, please contact us. We're here to help you.{" "}
         </p>

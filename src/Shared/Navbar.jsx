@@ -114,8 +114,8 @@ const Navbar = ({ toggleTheme, theme }) => {
                           `flex items-center gap-2 px-2 py-2 rounded-md transition-all ease-in-out duration-300 
                       ${
                         isActive
-                          ? "bg-teal-700 text-white"
-                          : "hover:bg-teal-800 hover:text-white"
+                          ? "bg-teal-700 text-base-100"
+                          : "hover:bg-teal-800 hover:text-base-100"
                       } `
                         }
                       >
@@ -126,7 +126,7 @@ const Navbar = ({ toggleTheme, theme }) => {
                 </ul>
 
                 {user ? (
-                  <div className="w-full bg-teal-700 text-white p-2 rounded-md flex hover:bg-teal-800 transition-colors ease-in-out duration-300">
+                  <div className="w-full bg-teal-700 text-base-100 p-2 rounded-md flex hover:bg-teal-800 transition-colors ease-in-out duration-300">
                     <button
                       onClick={handleSignout}
                       className="flex items-center gap-2"
@@ -167,8 +167,8 @@ const Navbar = ({ toggleTheme, theme }) => {
                       `flex items-center gap-2 px-3 py-3 rounded-md transition-all ease-in-out duration-300 
                       ${
                         isActive
-                          ? "bg-teal-700 text-white"
-                          : "hover:bg-teal-800 hover:text-white"
+                          ? "bg-teal-700 text-base-100"
+                          : "hover:bg-teal-800 hover:text-base-100"
                       } `
                     }
                   >
@@ -215,8 +215,8 @@ const Navbar = ({ toggleTheme, theme }) => {
                           `flex items-center px-3 py-3 rounded-md transition-all ease-in-out duration-300 
                       ${
                         isActive
-                          ? "bg-teal-700 text-white"
-                          : "hover:bg-teal-800 hover:text-white"
+                          ? "bg-teal-700 text-base-100"
+                          : "hover:bg-teal-800 hover:text-base-100"
                       } `
                         }
                         onClick={() => setIsDropdownOpen(false)}

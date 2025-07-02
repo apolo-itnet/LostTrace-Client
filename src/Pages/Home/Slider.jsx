@@ -114,7 +114,7 @@ const Slider = () => {
                         initial="initial"
                         animate="animate"
                         exit="exit"
-                        className="text-xl md:text-4xl lg:text-6xl 2xl:text-7xl bebas uppercase underline decoration-amber-400"
+                        className="text-xl md:text-4xl lg:text-6xl 2xl:text-7xl bebas uppercase underline decoration-amber-400 text-base-content"
                       >
                         {slide.subtitle}
                       </motion.p>
@@ -127,7 +127,7 @@ const Slider = () => {
                             initial="initial"
                             animate="animate"
                             exit="exit"
-                            className="text-sm md:text-lg manrope tracking-wide py-2 lg:py-4"
+                            className="text-sm md:text-lg manrope tracking-wide py-2 lg:py-4 text-base-content"
                           >
                             {slide.description}
                           </motion.p>
@@ -140,7 +140,7 @@ const Slider = () => {
                           >
                             <SecondaryBtn
                               label="View More"
-                              className="!px-6 py-3"
+                              className="!px-6 py-3 text-base-content"
                             />
                           </motion.div>
                         </div>
