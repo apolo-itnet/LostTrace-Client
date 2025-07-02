@@ -5,6 +5,7 @@ import Aos from "aos";
 import "aos/dist/aos.css";
 import Testimonial from "../Testimonial/Testimonial";
 import HowToWork from "../HowToWork/HowToWork";
+import FAQAccordion from "../../Shared/FAQAccordion";
 
 const postPromise = fetch("https://lost-trace.vercel.app/posts/latest").then((res) =>
   res.json()
@@ -31,6 +32,9 @@ const Home = () => {
       </section>
       <section>
         <Testimonial />
+      </section>
+      <section>
+        <FAQAccordion/>
       </section>
     </div>
   );

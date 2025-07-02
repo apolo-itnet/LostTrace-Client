@@ -1,5 +1,5 @@
 import { use, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 import {
   FaHome,
   FaSearch,
@@ -11,6 +11,8 @@ import {
   FaMoon,
   FaSun,
 } from "react-icons/fa";
+import { HiOutlineUsers } from "react-icons/hi2";
+import { RiContactsBook3Line } from "react-icons/ri";
 import Button from "./Button/Button";
 import SecondaryBtn from "./Button/SecondaryBtn";
 import { motion } from "framer-motion";
@@ -19,6 +21,7 @@ import { AuthContext } from "../Contexts/AuthContexts";
 import { toastError, toastSuccess } from "../Utility/notification";
 import { Toaster } from "react-hot-toast";
 import LoaderFull from "./Laoder/LoaderFull";
+import { Contact, Users } from "lucide-react";
 
 const Navbar = ({ toggleTheme, theme }) => {
   const { user, logOut } = use(AuthContext);
@@ -49,6 +52,8 @@ const Navbar = ({ toggleTheme, theme }) => {
   const navLinks = [
     { label: "Home", href: "/", icon: <FaHome /> },
     { label: "Browse Posts", href: "/all-posts", icon: <FaSearch /> },
+    { label: "About Us", href: "/about", icon: <HiOutlineUsers  /> },
+    { label: "Contact", href: "/contact", icon: <RiContactsBook3Line   /> },
   ];
 
   const privateLinks = [
@@ -90,7 +95,7 @@ const Navbar = ({ toggleTheme, theme }) => {
 
               <ul
                 tabIndex={0}
-                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-xs h-72"
+                className="menu menu-sm dropdown-content mt-3 z-[1] p-4 shadow bg-base-100 rounded-box size-82 flex flex-col items-start justify-between "
               >
                 <Link to="/">
                   <img
@@ -99,13 +104,46 @@ const Navbar = ({ toggleTheme, theme }) => {
                     className="w-22 flex justify-center items-center lg:hidden pb-4  "
                   />
                 </Link>
-                {navLinks.map((link, index) => (
-                  <li key={index}>
-                    <Link to={link.href} className="flex items-center gap-2">
-                      {link.icon} {link.label}
+
+                <ul className="text-sm font-medium flex flex-col items-start gap-3">
+                  {navLinks.map((link, index) => (
+                    <li key={index}>
+                      <NavLink
+                        to={link.href}
+                        className={({ isActive }) =>
+                          `flex items-center gap-2 px-2 py-2 rounded-md transition-all ease-in-out duration-300 
+                      ${
+                        isActive
+                          ? "bg-teal-700 text-white"
+                          : "hover:bg-teal-800 hover:text-white"
+                      } `
+                        }
+                      >
+                        {link.icon} {link.label}
+                      </NavLink>
+                    </li>
+                  ))}
+                </ul>
+
+                {user ? (
+                  <div className="w-full bg-teal-700 text-white p-2 rounded-md flex hover:bg-teal-800 transition-colors ease-in-out duration-300">
+                    <button
+                      onClick={handleSignout}
+                      className="flex items-center gap-2"
+                    >
+                      <FaSignOutAlt /> Signout
+                    </button>
+                  </div>
+                ) : (
+                  <div className="md:hidden gap-4 flex">
+                    <Link to="/signin">
+                      <SecondaryBtn label={"Sign In"}></SecondaryBtn>
                     </Link>
-                  </li>
-                ))}
+                    <Link to="/signup">
+                      <Button label={"Sign Up"}></Button>
+                    </Link>
+                  </div>
+                )}
               </ul>
             </div>
             {/* Logo */}
@@ -119,13 +157,23 @@ const Navbar = ({ toggleTheme, theme }) => {
           </div>
 
           {/* Desktop Menu */}
-          <div className="navbar-center flex-1 hidden lg:flex justify-center items-center">
-            <ul className="menu menu-horizontal px-1">
+          <div className="navbar-center hidden lg:flex justify-center items-center">
+            <ul className="text-sm font-medium flex items-center gap-2">
               {navLinks.map((link, index) => (
-                <li key={index} className="flex items-center gap-2">
-                  <Link to={link.href}>
-                    {link.icon} <span className="">{link.label}</span>
-                  </Link>
+                <li key={index}>
+                  <NavLink
+                    to={link.href}
+                    className={({ isActive }) =>
+                      `flex items-center gap-2 px-3 py-3 rounded-md transition-all ease-in-out duration-300 
+                      ${
+                        isActive
+                          ? "bg-teal-700 text-white"
+                          : "hover:bg-teal-800 hover:text-white"
+                      } `
+                    }
+                  >
+                    {link.icon} {link.label}
+                  </NavLink>
                 </li>
               ))}
             </ul>
@@ -157,23 +205,30 @@ const Navbar = ({ toggleTheme, theme }) => {
                 </label>
                 <ul
                   tabIndex={0}
-                  className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 s"
+                  className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box size-60 flex flex-col items-start justify-center gap-2"
                 >
                   {privateLinks.map((link, index) => (
-                    <li key={index}>
-                      <Link
+                    <li key={index} className="">
+                      <NavLink
                         to={link.href}
-                        className="flex items-center gap-2"
+                        className={({ isActive }) =>
+                          `flex items-center px-3 py-3 rounded-md transition-all ease-in-out duration-300 
+                      ${
+                        isActive
+                          ? "bg-teal-700 text-white"
+                          : "hover:bg-teal-800 hover:text-white"
+                      } `
+                        }
                         onClick={() => setIsDropdownOpen(false)}
                       >
                         {link.icon} <span className="">{link.label}</span>
-                      </Link>
+                      </NavLink>
                     </li>
                   ))}
-                  <li>
+                  <li className="w-full">
                     <button
                       onClick={handleSignout}
-                      className="flex items-center gap-2"
+                      className="w-full flex items-center gap-2 border border-teal-700 px-3 py-3 rounded-md"
                     >
                       <FaSignOutAlt /> Signout
                     </button>
@@ -181,7 +236,7 @@ const Navbar = ({ toggleTheme, theme }) => {
                 </ul>
               </div>
             ) : (
-              <div className="flex gap-4">
+              <div className="md:flex gap-4 hidden">
                 <Link to="/signin">
                   <SecondaryBtn label={"Sign In"}></SecondaryBtn>
                 </Link>

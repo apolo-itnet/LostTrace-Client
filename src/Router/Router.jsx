@@ -13,6 +13,8 @@ import AllPosts from "../Pages/AllPosts/AllPosts";
 import UpdatePost from "../AddPost/UpdatePost";
 import FeedbackForm from "../Pages/Testimonial/FeedbackForm";
 import ErrorPage from "../Shared/ErrorPage";
+import About from "../Pages/AboutUs/About";
+import Contact from "../Pages/ContactUs/Contact";
 
 const Router = createBrowserRouter([
   {
@@ -31,6 +33,14 @@ const Router = createBrowserRouter([
       {
         path: "/signup",
         element: <Signup />,
+      },
+      {
+        path: "/about",
+        element: <About/>
+      },
+      {
+        path: "/contact",
+        element: <Contact/>
       },
       {
         path: "/add-post",

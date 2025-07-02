@@ -30,11 +30,16 @@ const FeedbackCard = () => {
   if (isLoading) return <p className="text-center">Loading...</p>;
 
   return (
-    <div className="md:max-w-4xl mx-auto">
+    <div className="w-xs md:w-full mx-auto overflow-hidden">
       <Swiper
         modules={[Navigation, Pagination, Autoplay, EffectFade]}
         spaceBetween={40}
-        slidesPerView={2}
+        slidesPerView={1}
+        breakpoints={{
+          768: {
+            slidesPerView: 2,
+          },
+        }}
         centeredSlides={true}
         loop={true}
         speed={2000}
@@ -46,21 +51,20 @@ const FeedbackCard = () => {
         onSlideChange={(swiper) => {
           setActiveSlide(swiper.realIndex);
         }}
-        // onSwiper={(swiper) => {}}
-        className="mySwiper h-[480px] w-full mx-auto group relative"
+        className="mySwiper md:h-[480px] w-full group relative flex flex-col-reverse gap-4"
       >
         {feedbacks.map((feedback, index) => (
-          <SwiperSlide key={feedback._id}>
+          <SwiperSlide key={index} className="w-full">
             {({ isActive }) => (
               <div
-                className={`transition-all duration-300 shadow-xl rounded-xl border border-base-300 w-90 h-96 flex manrope  ${
+                className={`transition-all duration-300 shadow-xl rounded-xl border border-base-300 md:w-90 md:h-96 flex manrope  ${
                   isActive
                     ? "scale-100 opacity-100"
                     : "scale-90 opacity-10 blur-xs"
                 }`}
               >
-                <div className="flex flex-col items-center justify-center">
-                  <div className="relative flex h-full px-12 py-10 bg-gray-50">
+                <div className="w-full flex flex-col items-center justify-center">
+                  <div className="relative flex w-full h-full px-8 py-10 bg-gray-50">
                     <p className="relative text-lg italic leading-7 text-center text-gray-500">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -101,11 +105,21 @@ const FeedbackCard = () => {
           </SwiperSlide>
         ))}
 
-        <div className="slide-button-prev rounded-full lg:absolute top-100 w-16 h-16  flex justify-center items-center bg-amber-400 text-teal-800 duration-300 ease-in-out transition-all z-50 cursor-pointer">
-          <ArrowLeft />
+        <div className="flex md:hidden justify-center items-center gap-4">
+          <div className="slide-button-prev rounded-full lg:absolute lg:top-100  w-16 h-16  flex justify-center items-center bg-amber-400 text-teal-800 duration-300 ease-in-out transition-all z-50 cursor-pointer">
+            <ArrowLeft />
+          </div>
+          <div className="slide-button-next rounded-full lg:absolute lg:top-100 lg:left-18 w-16 h-16  flex justify-center items-center bg-amber-400 text-teal-800  duration-300 ease-in-out transition-all z-50 cursor-pointer">
+            <ArrowRight />
+          </div>
         </div>
-        <div className="slide-button-next rounded-full lg:absolute top-100 left-18 w-16 h-16  flex justify-center items-center bg-amber-400 text-teal-800  duration-300 ease-in-out transition-all z-50 cursor-pointer">
-          <ArrowRight />
+         <div className="hidden md:flex">
+          <div className="slide-button-prev rounded-full lg:absolute lg:top-100  w-16 h-16  flex justify-center items-center bg-amber-400 text-teal-800 duration-300 ease-in-out transition-all z-50 cursor-pointer">
+            <ArrowLeft />
+          </div>
+          <div className="slide-button-next rounded-full lg:absolute lg:top-100 lg:left-18 w-16 h-16  flex justify-center items-center bg-amber-400 text-teal-800  duration-300 ease-in-out transition-all z-50 cursor-pointer">
+            <ArrowRight />
+          </div>
         </div>
       </Swiper>
     </div>

@@ -11,6 +11,48 @@ import { slideUp } from "../../Utility/animation";
 import { useState } from "react";
 import useAuth from "../../Hooks/useAuth";
 
+
+const heroSlides = [
+  {
+    title: (
+      <>
+        <span className="text-teal-800">LOST</span>{" "}
+        <span className="px-2 block lg:hidden">&</span>
+        <span className="hidden lg:flex text-6xl absolute -bottom-2 left-56">
+          &
+        </span>
+        <span className="tracking-widest">TRACE</span>
+      </>
+    ),
+    subtitle: "Lost & Found Solution",
+    description:
+      "Track, report, and recover lost items effortlessly with our all-in-one platform.",
+    image: "https://i.postimg.cc/MKkw53pg/Worried-amico.png",
+  },
+  {
+    title: (
+      <>
+        FIND WHAT'S <span className="text-teal-800">LOST</span>
+      </>
+    ),
+    subtitle: "Every Lost Item Has a Way Back",
+    description:
+      "Connecting people with their missing valuables through smart search and real-time updates.",
+    image: "https://i.postimg.cc/jjjY2GMn/Worried-rafiki.png",
+  },
+  {
+    title: (
+      <>
+        <span className="text-teal-800">POST.</span> TRACE.RETURN
+      </>
+    ),
+    subtitle: "Your Trusted Partner in Recovery",
+    description:
+      "Empowering you to reclaim what matters—with speed, security, and simplicity.",
+    image: "https://i.postimg.cc/Xq8WzWvx/undraw-travelers-kud9.webp",
+  },
+];
+
 const Slider = () => {
   const { user } = useAuth();
   const [activeSlide, setActiveSlide] = useState(0);
@@ -51,7 +93,7 @@ const Slider = () => {
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.7 }}
-                      className="w-sm md:w-2xl lg:w-[56%]   flex flex-col justify-center items-start gap-2 lg:gap-6 lg:pl-8  res-padding "
+                      className="w-full md:w-2xl lg:w-[56%]   flex flex-col justify-center items-start gap-2 lg:gap-6 lg:pl-8  res-padding "
                     >
                       {user && (
                         <div className="text-2xl lg:text-4xl bebas uppercase font-black text-amber-400 relative lg:leading-10 lg:pb-12 py-4">

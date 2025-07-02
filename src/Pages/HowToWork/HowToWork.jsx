@@ -4,7 +4,7 @@ import SecondaryBtn from "../../Shared/Button/SecondaryBtn";
 
 const HowToWork = () => {
   return (
-    <div className="bg-teal-900 w-full h-full">
+    <div className="bg-teal-900 w-full h-full my-20">
       <div className="res-padding py-20">
         <div className="pb-20">
           <h1 className="lg:text-9xl md:text-8xl text-6xl text-center text-amber-400 font-semibold bebas tracking-wide py-4 ">
