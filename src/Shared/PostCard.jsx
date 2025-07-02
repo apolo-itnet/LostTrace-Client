@@ -54,7 +54,9 @@ const PostCard = ({ post, ...props }) => {
             }`}
           >
             <div className="flex-grow space-y-2 p-3 flex flex-col items-start text-sm manrope ">
-              <h2 className="text-base uppercase font-semibold line-clamp-1">{itemTitle}</h2>
+              <h2 className="text-base uppercase font-semibold line-clamp-1">
+                {itemTitle}
+              </h2>
 
               {/* Description */}
               <p className="text-left line-clamp-1 pr-2">{description}</p>
@@ -62,9 +64,7 @@ const PostCard = ({ post, ...props }) => {
               {/* Rewards */}
               <div className="text-left flex gap-2 items-center mb-2">
                 <p className="font-medium ">Rewards:</p>
-                {rewards.map((reward, index) => (
-                  <p key={index} className="text-sm text-gray-500"> {reward}</p>
-                ))}
+                <p className="text-sm text-gray-500"> {rewards} </p>
                 <p className="text-sm text-gray-500">/- bdt</p>
               </div>
               <div>

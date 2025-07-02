@@ -3,11 +3,11 @@ import Button from "./Button/Button";
 
 const ErrorPage = () => {
   return (
-    <div>
+    <div className="overflow-hidden">
       <div
         data-aos-duration="1000"
         data-aos="fade-left"
-        className="h-screen flex flex-col justify-center items-center"
+        className="h-screen flex flex-col justify-center items-center overflow-hidden"
       >
         <img
           src={
