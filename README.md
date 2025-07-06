@@ -88,17 +88,15 @@ The goal of this project is to provide a user-friendly platform for reporting an
 - 🔍 **Search Functionality** on All Items page
 - ✏️ **Item Update & Delete** with confirmation modal
 - 📊 **View Items in Card/Table Layout Toggle**
-- 🧾 **Meaningful Commit History** (Client: 15+, Server: 8+)
 
 ---
 
 ## 🧰 Technologies & Packages Used
 
 ### ⚛️ Frontend (React + Vite + Tailwind CSS)
-- `React Router DOM`
+- `React Router`
 - `Firebase`
 - `Framer Motion`
-- `React Hook Form`
 - `React DatePicker`
 - `Axios`
 - `React Icons`
@@ -111,7 +109,7 @@ The goal of this project is to provide a user-friendly platform for reporting an
 - `Cors`
 - `JWT`
 - `Dotenv`
-- `MongoDB Atlas`
+- `MongoDB`
 - `Express.js`
 
 ---
