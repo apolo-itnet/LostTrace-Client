@@ -1,4 +1,4 @@
-import { use, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router";
 import {
   FaHome,
@@ -10,6 +10,8 @@ import {
   FaCheckCircle,
   FaMoon,
   FaSun,
+  FaCaretDown,
+  FaCaretUp,
 } from "react-icons/fa";
 import { HiOutlineUsers } from "react-icons/hi2";
 import { RiContactsBook3Line } from "react-icons/ri";
@@ -21,13 +23,25 @@ import { AuthContext } from "../Contexts/AuthContexts";
 import { toastError, toastSuccess } from "../Utility/notification";
 import { Toaster } from "react-hot-toast";
 import LoaderFull from "./Laoder/LoaderFull";
-import { Contact, Users } from "lucide-react";
+import { ChevronDownIcon, ChevronUpIcon, Contact, Users } from "lucide-react";
 
 const Navbar = ({ toggleTheme, theme }) => {
   const { user, logOut } = use(AuthContext);
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const dropdownRef = useRef(null);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const handleSignout = async () => {
     setIsDropdownOpen(false);
@@ -52,8 +66,8 @@ const Navbar = ({ toggleTheme, theme }) => {
   const navLinks = [
     { label: "Home", href: "/", icon: <FaHome /> },
     { label: "Browse Posts", href: "/all-posts", icon: <FaSearch /> },
-    { label: "About Us", href: "/about", icon: <HiOutlineUsers  /> },
-    { label: "Contact", href: "/contact", icon: <RiContactsBook3Line   /> },
+    { label: "About Us", href: "/about", icon: <HiOutlineUsers /> },
+    { label: "Contact", href: "/contact", icon: <RiContactsBook3Line /> },
   ];
 
   const privateLinks = [
@@ -180,14 +194,13 @@ const Navbar = ({ toggleTheme, theme }) => {
           </div>
 
           {/* Dropdown avatar menu*/}
-          <div className="navbar-end flex-1 gap-6">
+          <div className="navbar-end flex-1 gap-6" >
             {user ? (
-              <div className="dropdown dropdown-end">
-                <label
-                  tabIndex={0}
-                  className="btn btn-ghost btn-circle avatar tooltip tooltip-bottom"
-                  data-tip={user.displayName || "User"}
+              <div className="relative" ref={dropdownRef}>
+                {/* Avatar Button */}
+                <button
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className="w-full flex items-center gap-2 btn btn-ghost btn-circle avatar tooltip tooltip-bottom"
                 >
                   <div className="w-10 rounded-full">
                     {user.photoURL ? (
@@ -202,46 +215,63 @@ const Navbar = ({ toggleTheme, theme }) => {
                       <FaUserCircle className="w-10 h-10" />
                     )}
                   </div>
-                </label>
-                <ul
-                  tabIndex={0}
-                  className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box size-60 flex flex-col items-start justify-center gap-2"
+                  {/* Smooth rotating arrow */}
+                  <div
+                    className={`transform transition-transform duration-300 ease-in-out ${
+                      isDropdownOpen ? "rotate-180" : "rotate-0"
+                    }`}
+                  >
+                    <ChevronDownIcon className="text-teal-700 w-6 h-6" />
+                  </div>
+                </button>
+
+                {/* Dropdown Menu */}
+                <div
+                  className={`absolute right-0 mt-3 z-50 p-2 shadow bg-base-100 rounded-box w-60 flex flex-col items-start justify-center gap-2 transition-all duration-300 ease-in-out
+              ${
+                isDropdownOpen
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 -translate-y-2 pointer-events-none"
+              }`}
                 >
                   {privateLinks.map((link, index) => (
-                    <li key={index} className="">
+                    <li key={index} className="list-none w-full">
                       <NavLink
                         to={link.href}
                         className={({ isActive }) =>
-                          `flex items-center px-3 py-3 rounded-md transition-all ease-in-out duration-300 
-                      ${
-                        isActive
-                          ? "bg-teal-700 text-base-100"
-                          : "hover:bg-teal-800 hover:text-base-100"
-                      } `
+                          `flex items-center px-3 py-3 gap-2 rounded-md transition-all ease-in-out duration-300 text-xs 
+                    ${
+                      isActive
+                        ? "bg-teal-700 text-base-100"
+                        : "hover:bg-teal-800 hover:text-base-100"
+                    }`
                         }
                         onClick={() => setIsDropdownOpen(false)}
                       >
-                        {link.icon} <span className="">{link.label}</span>
+                        {link.icon} <span>{link.label}</span>
                       </NavLink>
                     </li>
                   ))}
-                  <li className="w-full">
+                  <li className="w-full list-none">
                     <button
-                      onClick={handleSignout}
-                      className="w-full flex items-center gap-2 border border-teal-700 px-3 py-3 rounded-md"
+                      onClick={() => {
+                        handleSignout();
+                        setIsDropdownOpen(false);
+                      }}
+                      className="w-full flex items-center gap-2 px-3 py-3 rounded-md text-xs border border-transparent hover:border-teal-700 transition-colors ease-in-out duration-300 cursor-pointer"
                     >
                       <FaSignOutAlt /> Signout
                     </button>
                   </li>
-                </ul>
+                </div>
               </div>
             ) : (
-              <div className="md:flex gap-4 hidden">
+              <div className="md:flex gap-4 hidden ">
                 <Link to="/signin">
-                  <SecondaryBtn label={"Sign In"}></SecondaryBtn>
+                  <SecondaryBtn label={"Sign In"} />
                 </Link>
                 <Link to="/signup">
-                  <Button label={"Sign Up"}></Button>
+                  <Button label={"Sign Up"} />
                 </Link>
               </div>
             )}
