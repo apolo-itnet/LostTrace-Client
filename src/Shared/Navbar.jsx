@@ -268,10 +268,10 @@ const Navbar = ({ toggleTheme, theme }) => {
             ) : (
               <div className="md:flex gap-4 hidden ">
                 <Link to="/signin">
-                  <SecondaryBtn label={"Sign In"} />
+                  <SecondaryBtn className="px-6" label={"Sign In"} />
                 </Link>
                 <Link to="/signup">
-                  <Button label={"Sign Up"} />
+                  <Button className="px-6" label={"Sign Up"} />
                 </Link>
               </div>
             )}

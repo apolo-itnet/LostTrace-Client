@@ -146,7 +146,7 @@ const Signup = () => {
           className="w-full mx-auto my-10"
         >
           <div className="flex flex-col items-center justify-center">
-            <div className="flex-1 p-8 w-full border border-base-300 shadow-xs rounded-2xl bg-base-300">
+            <div className="flex-1 p-8 w-full border border-base-300 shadow-xs rounded-2xl bg-base-100">
               <form onSubmit={handleRegister} className="form-control">
                 <fieldset className="fieldset mx-auto items-center space-y-2">
                   <h1 className="text-2xl font-bold text-center">
