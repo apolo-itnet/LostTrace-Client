@@ -31,11 +31,17 @@ const Navbar = ({ toggleTheme, theme }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const dropdownRef = useRef(null);
+  const mobileDropdownRef = useRef(null);
 
   // Close dropdown on outside click
   useEffect(() => {
     function handleClickOutside(event) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) &&
+        mobileDropdownRef.current &&
+        !mobileDropdownRef.current.contains(event.target)
+      ) {
         setIsDropdownOpen(false);
       }
     }
@@ -87,10 +93,14 @@ const Navbar = ({ toggleTheme, theme }) => {
           animate="animate"
           className="navbar flex justify-between items-center w-full"
         >
-          {/* Mobile Menu */}
-          <div className="md:navbar-start lg:flex-1 ">
-            <div className="dropdown">
-              <label tabIndex={0} className="btn btn-ghost lg:hidden">
+          {/* Mobile Menu Toggle & Dropdown */}
+          <div>
+            <div className="relative lg:hidden " ref={mobileDropdownRef}>
+              <button
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="btn btn-ghost"
+                aria-label="Toggle navigation menu"
+              >
                 <svg
                   className="h-5 w-5"
                   fill="none"
@@ -104,70 +114,60 @@ const Navbar = ({ toggleTheme, theme }) => {
                     d="M4 6h16M4 12h16M4 18h16"
                   />
                 </svg>
-              </label>
-              {/* Logo */}
+              </button>
 
-              <ul
-                tabIndex={0}
-                className="menu menu-sm dropdown-content mt-3 z-[1] p-4 shadow bg-base-100 rounded-box size-82 flex flex-col items-start justify-between "
+              <div
+                className={`absolute left-0 top-full mt-2 w-56 bg-base-100 shadow-lg rounded-lg transition-all duration-300 ease-in-out z-50 lg:hidden
+              ${
+                isDropdownOpen
+                  ? "opacity-100 translate-y-0 pointer-events-auto"
+                  : "opacity-0 -translate-y-2 pointer-events-none"
+              }`}
               >
-                <Link to="/">
-                  <img
-                    src={"https://i.postimg.cc/0jyV0sJ7/Lost-Trace-Logo.png"}
-                    alt="Lost Trace Logo"
-                    className="w-22 flex justify-center items-center lg:hidden pb-4  "
-                  />
-                </Link>
-
-                <ul className="text-sm font-medium flex flex-col items-start gap-3">
+                <ul className="flex flex-col gap-1 p-2">
                   {navLinks.map((link, index) => (
-                    <li key={index}>
+                    <li key={index} className="list-none">
                       <NavLink
                         to={link.href}
                         className={({ isActive }) =>
-                          `flex items-center gap-2 px-2 py-2 rounded-md transition-all ease-in-out duration-300 
-                      ${
-                        isActive
-                          ? "bg-teal-700 text-base-100"
-                          : "hover:bg-teal-800 hover:text-base-100"
-                      } `
+                          `flex items-center px-3 py-3 gap-2 rounded-md transition-all ease-in-out duration-300 text-xs
+                          ${
+                            isActive
+                              ? "bg-teal-700 text-base-100"
+                              : "hover:bg-teal-800 hover:text-base-100"
+                          }`
                         }
+                        onClick={() => setIsDropdownOpen(false)}
                       >
-                        {link.icon} {link.label}
+                        {link.icon} <span>{link.label}</span>
                       </NavLink>
                     </li>
                   ))}
+                  {user && (
+                    <li>
+                      <button
+                        onClick={() => {
+                          handleSignout();
+                          setIsDropdownOpen(false);
+                        }}
+                        className="w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm border border-transparent hover:border-teal-700 transition-colors ease-in-out duration-300 cursor-pointer"
+                      >
+                        <FaSignOutAlt /> Signout
+                      </button>
+                    </li>
+                  )}
                 </ul>
-
-                {user ? (
-                  <div className="w-full bg-teal-700 text-base-100 p-2 rounded-md flex hover:bg-teal-800 transition-colors ease-in-out duration-300">
-                    <button
-                      onClick={handleSignout}
-                      className="flex items-center gap-2"
-                    >
-                      <FaSignOutAlt /> Signout
-                    </button>
-                  </div>
-                ) : (
-                  <div className="md:hidden gap-4 flex">
-                    <Link to="/signin">
-                      <SecondaryBtn label={"Sign In"}></SecondaryBtn>
-                    </Link>
-                    <Link to="/signup">
-                      <Button label={"Sign Up"}></Button>
-                    </Link>
-                  </div>
-                )}
-              </ul>
+              </div>
             </div>
-            {/* Logo */}
-            <Link to="/">
-              <img
-                src={"https://i.postimg.cc/0jyV0sJ7/Lost-Trace-Logo.png"}
-                alt="Lost Trace Logo"
-                className="w-22 lg:flex hidden "
-              />
-            </Link>
+            <div className="w-full">
+              <Link to="/" className="hidden lg:flex ">
+                <img
+                  src={"https://i.postimg.cc/0jyV0sJ7/Lost-Trace-Logo.png"}
+                  alt="Lost Trace Logo"
+                  className="w-22"
+                />
+              </Link>
+            </div>
           </div>
 
           {/* Desktop Menu */}
@@ -194,7 +194,7 @@ const Navbar = ({ toggleTheme, theme }) => {
           </div>
 
           {/* Dropdown avatar menu*/}
-          <div className="navbar-end flex-1 gap-6" >
+          <div className="navbar-end flex-1 gap-6">
             {user ? (
               <div className="relative" ref={dropdownRef}>
                 {/* Avatar Button */}
@@ -217,7 +217,7 @@ const Navbar = ({ toggleTheme, theme }) => {
                   </div>
                   {/* Smooth rotating arrow */}
                   <div
-                    className={`transform transition-transform duration-300 ease-in-out ${
+                    className={`transform transition-transform duration-300 ease-in-out hidden lg:flex ${
                       isDropdownOpen ? "rotate-180" : "rotate-0"
                     }`}
                   >
@@ -227,12 +227,12 @@ const Navbar = ({ toggleTheme, theme }) => {
 
                 {/* Dropdown Menu */}
                 <div
-                  className={`absolute right-0 mt-3 z-50 p-2 shadow bg-base-100 rounded-box w-60 flex flex-col items-start justify-center gap-2 transition-all duration-300 ease-in-out
-              ${
-                isDropdownOpen
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 -translate-y-2 pointer-events-none"
-              }`}
+                  className={`absolute right-0 mt-3 z-50 p-2 shadow bg-base-100 rounded-box w-60 hidden lg:flex flex-col items-start justify-center gap-2 transition-all duration-300 ease-in-out 
+                  ${
+                    isDropdownOpen
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 -translate-y-2 pointer-events-none"
+                  }`}
                 >
                   {privateLinks.map((link, index) => (
                     <li key={index} className="list-none w-full">
