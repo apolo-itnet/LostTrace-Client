@@ -25,7 +25,7 @@ const AllPosts = () => {
       {/* Heading */}
       <div className="py-4 bg-teal-800 text-base-100 sticky top-20.5 z-10 w-full">
         <div className="res-padding flex justify-between items-center">
-          <h1 className="text-6xl text-white font-semibold bebas tracking-wide py-4">
+          <h1 className="text-4xl lg:text-6xl text-white font-semibold bebas tracking-wide py-4">
             All Post
           </h1>
           <div className="flex items-center gap-4">
