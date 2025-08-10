@@ -21,7 +21,7 @@ const LatestPost = ({ postPromise }) => {
         {/* Heading */}
         <div className="py-4 bg-teal-800 text-base-100 w-full">
           <div className="res-padding">
-            <h1 className="text-6xl text-white font-semibold bebas tracking-wide py-4">
+            <h1 className="text-4xl lg:text-6xl text-white font-semibold bebas tracking-wide py-4">
               Latest Post
             </h1>
           </div>

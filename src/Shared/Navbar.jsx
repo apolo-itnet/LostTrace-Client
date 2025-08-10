@@ -108,7 +108,7 @@ const Navbar = ({ toggleTheme, theme }) => {
           className="navbar flex justify-between items-center w-full"
         >
           {/* Mobile: Menu + Logo */}
-          <div className="flex items-center gap-2">
+          <div className="navbar-start flex items-center gap-2">
             {/* Mobile Menu Button */}
             <div className="relative lg:hidden" ref={mobileMenuRef}>
               <button
@@ -221,7 +221,7 @@ const Navbar = ({ toggleTheme, theme }) => {
             </div>
 
             {/* Logo */}
-            <div className="w-full">
+            <div >
               <Link to="/" className="hidden lg:flex">
                 <img
                   src={"https://i.postimg.cc/0jyV0sJ7/Lost-Trace-Logo.png"}
